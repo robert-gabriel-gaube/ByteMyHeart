@@ -44,7 +44,7 @@ class User(models.Model):
     formId = models.OneToOneField(Form, on_delete=models.CASCADE, null=False)
 
 class Report(models.Model):
-    receiverID = models.ManyToManyField(User, null=False)
+    receiverID = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
     description = models.CharField(max_length=300, blank=False, null=False)
     
     OPEN = "OPN"
