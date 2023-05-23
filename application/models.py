@@ -24,7 +24,7 @@ class Form(models.Model):
         (MASCULIN, "MASCULIN"),
         (UNKNOWN, "UNKNOWN"),
     ]
-    
+
     def is_upperclass(self):
         return self.GENDER_CHOICES in {self.FEMININ, self.MASCULIN}
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=UNKNOWN)
