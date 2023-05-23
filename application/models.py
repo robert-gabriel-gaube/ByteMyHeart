@@ -42,3 +42,17 @@ class User(models.Model):
                                null=False)  # 1 -> user
     matchId = models.OneToOneField('self', on_delete=models.CASCADE, null=True)
     formId = models.OneToOneField(Form, on_delete=models.CASCADE, null=False)
+
+class Report(models.Model):
+    receiverID = models.ManyToManyField(User, null=False)
+    description = models.CharField(max_length=300, blank=False, null=False)
+    
+    OPEN = "OPN"
+    CLOSED = "CSD"
+
+    STATUS_CHOICES = [
+        (OPEN, "OPEN"),
+        (CLOSED, "CLOSED")
+    ]
+
+    status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=OPEN)
