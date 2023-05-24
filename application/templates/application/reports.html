@@ -31,10 +31,10 @@
                 font-size: 20px;
                 color: black;
             }
-            #open {
+            #CSD {
                 background-color: #F15A59;
             }
-            #closed {
+            #OPN {
                 background-color: limegreen;
             }
         </style>
@@ -45,10 +45,11 @@
         </div>
 
         <div id="reports">
-            <!-- <ul>
-                <li id="open"><a href="#">Report1</a></li>
-                <li id="closed"><a href="#">Report2</a></li>
-            </ul> -->
+            <ul>
+                {% for report in reports %}
+                    <li id="{{ report.status }}"><a href="#">Report#{{ report.id }}</a></li>
+                {% endfor %}
+            </ul>
         </div>  
 
     </body>
