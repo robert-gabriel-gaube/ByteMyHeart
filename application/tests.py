@@ -43,5 +43,5 @@ class ReportsTest(TestCase):
     
     def testReportIsInDatabase(self):
         report = Report.objects.get(description='Toxic person')
-
+        
         self.assertEqual(report.status, "OPN")
