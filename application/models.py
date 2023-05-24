@@ -21,14 +21,13 @@ class Form(models.Model):
     MASCULIN = "M"
     GENDER_CHOICES = [
         (FEMININ, "FEMININ"),
-        (MASCULIN, "MASCULIN"),
-        (UNKNOWN, "UNKNOWN"),
+        (MASCULIN, "MASCULIN")
     ]
 
     def is_upperclass(self):
         return self.GENDER_CHOICES in {self.FEMININ, self.MASCULIN}
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=UNKNOWN)
-    interest = models.CharField(max_length=1, choices=GENDER_CHOICES, default=UNKNOWN)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    interest = models.CharField(max_length=1, choices=GENDER_CHOICES)
     favorite_algorithm = models.CharField(max_length=15, null=False)
     favorite_data_structure = models.CharField(max_length=15, null=False)
     short_description = models.CharField(max_length=50, null=False)
