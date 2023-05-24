@@ -1,19 +1,21 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 
 from application.models import Report
-from application.forms import UserForm
+from application.forms import UserRegisterForm, BigRegisterForm
 
+user = None
 
-class UserRegisterView(View):
+class UserRegisterFormView(View):
     def get(self, request):
-        form = UserForm()
+        form = UserRegisterForm()
         return render(request, "application/Form.html", {
             "form": form
         })
     
     def post(self, request):
-        form = UserForm(request.post)
+        form = UserRegisterForm(request.post)
 
         if form.is_valid():
             user=form.save(commit= False)
