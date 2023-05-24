@@ -22,6 +22,13 @@
 <body>
     <h1 style="color: black;text-align: center; font-family: 'Lexend'">Interest Form</h1>
     <form action="\" method="POST" style="text-align: center">
+        {% for field in bigform %} 
+        <div class="form-control">
+            {{ field.label_tag }} 
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
         <button style="background-color: #D21312;align-content: end;font-family: 'Lexend'" type="submit">Register</button>
     </form>
 </body>
