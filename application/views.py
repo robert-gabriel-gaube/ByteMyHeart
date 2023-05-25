@@ -87,3 +87,7 @@ class CreateReportView(View):
         return render(request, "application/create_report.html", {
             "form": form
         })
+
+class UserMainPageView(View):
+    def get(self, request):
+        return render(request, "application/main_page_users.html")
