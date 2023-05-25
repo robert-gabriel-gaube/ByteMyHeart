@@ -194,3 +194,51 @@ class ReportsActionTest(TestCase):
 
         a_content = content[a_start_index:a_end_index]
         self.assertEqual(a_content[:11], '<a href="#"')
+
+class CreateReportTest(TestCase):
+    def setUp(self):
+        form = Form(
+            name='Robert',
+            age=20,
+            programming_language='C++',
+            university_specialization='CTI',
+            course_fav1="IC",
+            course_fav2="TS",
+            course_fav3="PAA",
+            hobby1='singing',
+            hobby2='cleaning',
+            hobby3='eating',
+            hobby4='sleeping',
+            hobby5='writing',
+            gender='M',
+            interest='M',
+            favorite_algorithm='rabin-karp',
+            favorite_data_structure='Binary Trees',
+            short_description='I like programming'
+        )
+        form.save()
+
+
+        user = User(
+            username='CandyButcher',
+            password=make_password("123456"),
+            matchId=None,
+            formId=form
+        )
+
+        user.save()
+    
+    def test_create_report_page(self):
+        response = self.client.get('/create-report/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_report_page_post(self):
+        response = self.client.post('/create-report/', {
+            'description': 'Toxic person',
+            'receiverID': 1
+        })
+        self.assertEqual(response.status_code, 302)
+
+        report = Report.objects.get(pk=1)
+        self.assertEqual(report.status, "OPN")
+        self.assertEqual(report.receiverID.username, "CandyButcher")
