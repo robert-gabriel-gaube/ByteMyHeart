@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                font-family: 'Lexend';
+            }
+            #header {
+                padding-top: 3vh;
+                margin: auto;
+                text-align: center;
+                padding-bottom: 5vh;
+            }
+            #content {
+                border-radius: 10px;
+                margin: auto;
+                width: 50vw;
+                background-color: #F15A59;
+                text-align: center;
+                color: white;
+                overflow: auto;
+                padding: 20px 0 30px 0;
+            }
+            #content a, #content button {
+                background-color: #D21312;
+                text-decoration: none;
+                font-size: 20px;
+                color: white;
+                border-radius: 5px;
+                padding: 10px 20px;
+                margin: 20px;
+            }
+            #content button {
+                border: none;
+            }
+            form {
+                text-align: center;
+            }
+            .form-control{
+                margin: 10px 0;
+            }
+            input{
+                color: #F15A59;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Create report</h1>
+        </div>
+        <div id="content">
+            <form action="\" method="POST">
+                {% for field in form %} 
+                    <div class="form-control">
+                        {{ field.label_tag }} 
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+                <a href="/user-main-page">Cancel</a>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </body>
+</html>
