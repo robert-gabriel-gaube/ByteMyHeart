@@ -61,4 +61,12 @@ class ReportsActionView(View):
         user.save()
 
         return HttpResponseRedirect("/reports")
+
+class ReportView(View):
+    def get(self, request, pk):
+        report = Report.objects.get(pk=pk)
+        return render(request, "application/report.html", {
+            'report' : report,
+            'user' : report.receiverID
+        })
     
