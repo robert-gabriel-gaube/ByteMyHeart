@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 
-from application.models import Report
+from application.models import Report, User
 from application.forms import UserRegisterForm, BigRegisterForm
 
 user = None
@@ -50,3 +50,15 @@ class ReportsView(View):
         return render(request, "application/reports.html", {
             'reports' : reports
         })
+    
+class ReportsActionView(View):
+    def get(self, request, pk, username, status):
+        report = Report.objects.get(pk=pk)
+        report.status = 'CSD'
+        report.save()
+        user = User.objects.get(username=username)
+        user.isBanned = status
+        user.save()
+
+        return HttpResponseRedirect("/reports")
+    
