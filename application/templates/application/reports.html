@@ -47,7 +47,7 @@
         <div id="reports">
             <ul>
                 {% for report in reports %}
-                    <li id="{{ report.status }}"><a href="#">Report#{{ report.id }}</a></li>
+                    <li id="{{ report.status }}"><a href={% if report.status == 'OPN' %}"/report/{{ report.id }} {% else %} # {% endif %}">Report#{{ report.id }}</a></li>
                 {% endfor %}
             </ul>
         </div>  

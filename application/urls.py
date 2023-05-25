@@ -7,5 +7,6 @@ urlpatterns = [
     path('interestform', views.BigRegisterFormView.as_view()),
     path('register', views.UserRegisterFormView.as_view()),
     path('reports', views.ReportsView.as_view()),
-    path('reports/action/<int:pk>/<username>/<int:status>', views.ReportsActionView.as_view())
+    path('reports/action/<int:pk>/<username>/<int:status>', views.ReportsActionView.as_view()),
+    path('report/<int:pk>', views.ReportView.as_view())
 ]

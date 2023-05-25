@@ -44,12 +44,13 @@
     </head>
     <body>
         <div id="header">
-            <h1>Report#x</h1>
+            <h1>Report#{{ report.id }}</h1>
         </div>
         <div id="content">
-            <p id="username">Username</p>
-            <p id="description">description</p>
-            <div id="actions"><a href="#">Close and don't block</a> <a href="#">Close and block</a></div>
+            <p id="username">{{ user.username }}</p>
+            <p id="description">{{ report.description }}</p>
+            <div id="actions"><a href="/reports/action/{{ report.id }}/{{ user.username }}/1">Close and don't block</a> 
+                            <a href="/reports/action/{{ report.id }}/{{ user.username }}/0">Close and block</a></div>
         </div>
     </body>
 </html>
