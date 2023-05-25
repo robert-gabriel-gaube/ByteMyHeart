@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views import View
 
 from application.models import Report, User
-from application.forms import UserRegisterForm, BigRegisterForm
+from application.forms import ReportForm, UserRegisterForm, BigRegisterForm
 
 user = None
 
@@ -70,3 +70,20 @@ class ReportView(View):
             'user' : report.receiverID
         })
     
+class CreateReportView(View):
+    def get(self, request):
+        form = ReportForm()
+        return render(request, "application/create_report.html", {
+            'form': form
+        })
+    
+    def post(self, request):
+        form = ReportForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/user-main-page")
+
+        return render(request, "application/create_report.html", {
+            "form": form
+        })

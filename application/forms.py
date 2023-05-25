@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Form
+from .models import User, Form, Report
 
 class BigRegisterForm(forms.ModelForm):
     class Meta:
@@ -102,5 +102,23 @@ class UserRegisterForm(forms.ModelForm):
             "password": {
                 "required": "This field must not be empty!",
                 "max_length": "Please enter a shorter password!"
+            }
+        }
+
+class ReportForm(forms.ModelForm):
+    class Meta:
+        model = Report
+        fields = ['receiverID', 'description']
+        labels = {
+               'receiverID': 'Person to report',
+               'description': 'Description of the report',
+        }
+        error_messages = {
+            "receiverID": {
+                "required": "This field must not be empty!",
+            },
+            "description": {
+                "required": "This field must not be empty!",
+                "max_length": "Please enter a shorter description!"
             }
         }
