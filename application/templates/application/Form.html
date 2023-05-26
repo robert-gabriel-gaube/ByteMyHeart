@@ -12,7 +12,18 @@
         .form-control{
             margin: 10px 0;
         }
-
+        form a, form button {
+            background-color: #D21312;
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+        form button {
+            border: none;
+        }
         input{
             color: #F15A59;
         }
@@ -30,7 +41,8 @@
             {{ field.errors }}
         </div>
         {% endfor %}
-        <button style="background-color: #D21312;align-content: end;font-family: 'Lexend'" onclick="window.location.href='/'">Cancel</button>         <button style="background-color: #D21312;align-content: end;font-family: 'Lexend'" type="submit">Register</button>
+        <a href="/">Cancel</a>  
+        <button style="background-color: #D21312;align-content: end;font-family: 'Lexend'" type="submit">Register</button>
     </form>
 </body>
 </html>
