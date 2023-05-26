@@ -1,6 +1,7 @@
+import datetime
 from django.http import HttpResponse
 from django.test import TestCase
-from .models import Report, User, Form
+from .models import DateOffer, Report, User, Form
 from django.contrib.auth.hashers import make_password
 
 class ReportsTest(TestCase):
@@ -332,3 +333,40 @@ class UserLoginFormTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response, HttpResponse)
 
+class DateOfferModelTest(TestCase):
+    def setUp(self):
+        user1 = User(
+            username='Fermecatu',
+            password=make_password("123456"),
+            matchId=None,
+            formId=None
+        )
+        user1.save()
+        user2 = User(
+            username='CandyButcher',
+            password=make_password("123456"),
+            matchId=None,
+            formId=None
+        )
+        user2.save()
+        date_offer = DateOffer(
+            senderId=user1,
+            receiverId=user2,
+            status="OPN",
+            date_idea="Go to the cinema",
+            date_time=datetime.datetime.now(),
+            date_location="Cinema City"
+        )
+        date_offer.save()
+
+    def test_date_offer_created(self):
+        date_offer = DateOffer.objects.get(pk=1)
+        self.assertEqual(date_offer.status, "OPN")
+        self.assertEqual(date_offer.senderId.username, "Fermecatu")
+        self.assertEqual(date_offer.receiverId.username, "CandyButcher")
+        
+    def test_change_offer_to_accepted(self):
+        date_offer = DateOffer.objects.get(pk=1)
+        date_offer.status = "ACC"
+        date_offer.save()
+        self.assertEqual(date_offer.status, "ACC")
