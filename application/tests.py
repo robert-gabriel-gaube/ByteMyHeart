@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.test import TestCase
 from .models import Report, User, Form
 from django.contrib.auth.hashers import make_password
@@ -280,4 +281,54 @@ class UserRegisterFormTest(TestCase):
         self.assertIsNotNone(form)
         user=User.objects.get(username='Fermecatu')
         self.assertEquals(user.formId.name, 'Andrei')
+
+class UserLoginFormTest(TestCase):
+    def test_user_login_form_page(self):
+        response = self.client.get('/login')
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_login_form_page_post(self):
+        user = User(
+            username='Fermecatu',
+            password=make_password("123456"),
+            matchId=None,
+            formId=None
+        )
+        user.save()
+        response = self.client.post('/login', {
+            'username': 'Fermecatu',
+            'password': '123456',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/user-main-page')
+    def test_admin_login_form_page_post(self):
+        user = User(
+            username='admin',
+            password=make_password("admin"),
+            matchId=None,
+            formId=None,
+            role=0
+        )
+        user.save()
+        response = self.client.post('/login', {
+            'username': 'admin',
+            'password': 'admin',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/reports')
+
+    def test_user_login_form_page_post_wrong_password(self):
+        user = User(
+            username='Fermecatu',
+            password=make_password("123456"),
+            matchId=None,
+            formId=None
+        )
+        user.save()
+        response = self.client.post('/login', {
+            'username': 'Fermecatu',
+            'password': '1234567',
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response, HttpResponse)
 
