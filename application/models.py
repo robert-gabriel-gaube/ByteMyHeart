@@ -40,7 +40,7 @@ class User(models.Model):
     role = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(1)], default=1,
                                null=False)  # 1 -> user
     matchId = models.OneToOneField('self', on_delete=models.CASCADE, null=True)
-    formId = models.OneToOneField(Form, on_delete=models.CASCADE, null=False)
+    formId = models.OneToOneField(Form, on_delete=models.CASCADE, null=True)
 
 class Report(models.Model):
     receiverID = models.ForeignKey(User, on_delete=models.CASCADE, null=False)

@@ -36,7 +36,9 @@ class UserRegisterFormView(View):
         form = UserRegisterForm(request.POST)
 
         if form.is_valid():
-            user=form.save(commit= False)
+            global user
+            user=form.save()
+            print(user.username)
             return HttpResponseRedirect("/interestform")
         return render(request, "application/Form.html", {
             "form": form
