@@ -55,3 +55,20 @@ class Report(models.Model):
     ]
 
     status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=OPEN)
+
+class DateOffer(models.Model):
+    senderId = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name='senderId')
+    receiverId = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name='receiverId')
+    date_idea = models.CharField(max_length=300, null=False)
+    date_time = models.TimeField(null=False)
+    date_location = models.CharField(max_length=50, null=False)
+    PENDING = "PND"
+    ACCEPTED = "ACC"
+    DECLINED = "DEC"
+    STATUS_CHOICES = [
+        (PENDING, "PENDING"),
+        (ACCEPTED, "ACCEPTED"),
+        (DECLINED, "DECLINED")
+    ]
+    status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=PENDING)
+    created_at = models.DateTimeField(auto_now_add=True)
