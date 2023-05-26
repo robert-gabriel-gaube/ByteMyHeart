@@ -21,7 +21,8 @@
 </head>
 <body>
     <h1 style="color: black;text-align: center; font-family: 'Lexend'">Interest Form</h1>
-    <form action="\" method="POST" style="text-align: center">
+    <form action="\interestform" method="POST" style="text-align: center">
+        {% csrf_token %}
         {% for field in bigform %} 
         <div class="form-control">
             {{ field.label_tag }} 

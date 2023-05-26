@@ -21,7 +21,8 @@
 </head>
 <body>
     <h1 style="color: black;text-align: center; font-family: 'Lexend'">Register a new account</h1>
-    <form action="\" method="POST" style="text-align: center">
+    <form action="\register" method="POST" style="text-align: center">
+        {% csrf_token %}
         {% for field in form %} 
         <div class="form-control">
             {{ field.label_tag }} 

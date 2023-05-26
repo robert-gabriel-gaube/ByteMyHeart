@@ -14,7 +14,7 @@ class BigRegisterFormView(View):
             "bigform": bigform
         })
     def post(self, request):
-        bigform = BigRegisterForm(request.post)
+        bigform = BigRegisterForm(request.POST)
 
         if bigform.is_valid():
             form=bigform.save()
@@ -33,11 +33,11 @@ class UserRegisterFormView(View):
         })
     
     def post(self, request):
-        form = UserRegisterForm(request.post)
+        form = UserRegisterForm(request.POST)
 
         if form.is_valid():
             user=form.save(commit= False)
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/interestform")
         return render(request, "application/Form.html", {
             "form": form
         })
