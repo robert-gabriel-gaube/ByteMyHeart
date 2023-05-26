@@ -91,3 +91,7 @@ class CreateReportView(View):
 class UserMainPageView(View):
     def get(self, request):
         return render(request, "application/main_page_users.html")
+    
+class IndexPageView(View):
+    def get(self, request):
+        return render(request, "application/IndexPage.html")
