@@ -251,33 +251,33 @@ class UserRegisterFormTest(TestCase):
 
     def test_user_register_form_page_post(self):
         response = self.client.post('/register', {
-            'username': 'CandyButcher',
+            'username': 'Fermecatu',
             'password': '123456',
         })
         self.assertEqual(response.status_code, 302)
-        user=User.objects.get(username='CandyButcher')
+        user=User.objects.get(username='Fermecatu')
         self.assertIsNotNone(user)
         response = self.client.post('/interestform', {  
-            'name': 'Robert',
+            'name': 'Andrei',
             'age': 20,
-            'programming_language':'C++',
-            'university_specialization':'CTI',
+            'programming_language':'C',
+            'university_specialization':'ETTI',
             'course_fav1':"IC",
             'course_fav2':"TS",
-            'course_fav3':"PAA",
-            'hobby1':'singing',
-            'hobby2':'cleaning',
-            'hobby3':'eating',
+            'course_fav3':"CD",
+            'hobby1':'coding',
+            'hobby2':'editing',
+            'hobby3':'analyzing',
             'hobby4':'sleeping',
-            'hobby5':'writing',
+            'hobby5':'cooking',
             'gender':'M',
-            'interest':'M',
-            'favorite_algorithm':'rabin-karp',
-            'favorite_data_structure':'Binary Trees',
+            'interest':'F',
+            'favorite_algorithm':'viterbi',
+            'favorite_data_structure':'Graphs',
             'short_description':'I like programming'})
         self.assertEqual(response.status_code, 302)
-        form=Form.objects.get(name='Robert')
+        form=Form.objects.get(name='Andrei')
         self.assertIsNotNone(form)
-        user=User.objects.get(username='CandyButcher')
-        self.assertEquals(user.formId.name, 'Robert')
+        user=User.objects.get(username='Fermecatu')
+        self.assertEquals(user.formId.name, 'Andrei')
 
