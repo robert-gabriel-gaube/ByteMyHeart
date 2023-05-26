@@ -12,4 +12,5 @@ urlpatterns = [
     path('create-report/', views.CreateReportView.as_view()),
     path('user-main-page', views.UserMainPageView.as_view()),
     path('', views.IndexPageView.as_view()),
+    path('login', views.LoginView.as_view()),
 ]

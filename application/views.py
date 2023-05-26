@@ -1,11 +1,12 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
-
+from django.contrib.auth.hashers import make_password, check_password
 from application.models import Report, User
-from application.forms import ReportForm, UserRegisterForm, BigRegisterForm
+from application.forms import LoginForm, ReportForm, UserRegisterForm, BigRegisterForm
 
 user = None
+logInUser = None
 
 class BigRegisterFormView(View):
     def get(self, request):
@@ -38,12 +39,38 @@ class UserRegisterFormView(View):
         if form.is_valid():
             global user
             user=form.save()
-            print(user.username)
+            user.password=make_password(form.cleaned_data['password'])
+            user.save()
             return HttpResponseRedirect("/interestform")
         return render(request, "application/Form.html", {
             "form": form
         })
+
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+        return render(request, "application/LoginPage.html", {
+            "form": form
+        })  
+    def post(self, request):
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            user=User.objects.get(username=form.cleaned_data['username'])
+            if user is not None:
+                if check_password(form.cleaned_data['password'], user.password):
+                    global logInUser
+                    logInUser=user
                 
+                    if(user.role == 1):
+                        return HttpResponseRedirect("/user-main-page")
+                    else:
+                        return HttpResponseRedirect("/reports")
+        return render(request, "application/LoginPage.html", {
+            "form": form
+        })
+    
+                   
 
 class ReportsView(View):
     def get(self, request):
