@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password, check_password
-from application.models import Report, User, DateOffer
+from application.models import Report, User, DateOffer, Form
 from application.forms import LoginForm, ReportForm, UserRegisterForm, BigRegisterForm
 
 user = None
@@ -80,6 +80,13 @@ class ReportsView(View):
             'reports' : reports
         })
     
+class ViewMyProfileView(View):
+    def get(self, request):
+        return render(request, "application/ViewMyProfile.html", {
+            'form' : logInUser.formId
+        })
+    
+    
 class ReportsActionView(View):
     def get(self, request, pk, username, status):
         report = Report.objects.get(pk=pk)
@@ -119,7 +126,9 @@ class CreateReportView(View):
 
 class UserMainPageView(View):
     def get(self, request):
-        return render(request, "application/main_page_users.html")
+        return render(request, "application/main_page_users.html",{
+            'username': logInUser.username,
+        })
     
 class IndexPageView(View):
     def get(self, request):
