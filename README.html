@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome file</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="welcome-to-bytemyheart">Welcome to ByteMyHeart!</h1>
+<p>This is a file meant for showcasing how to run and use the application ByteMyHeart created in Django.</p>
+<h1 id="how-to-get-the-application">How to get the application</h1>
+<p>Clone the repository like this:</p>
+<p>git clone <a href="https://github.com/robert-gabriel-gaube/ByteMyHeart.git">https://github.com/robert-gabriel-gaube/ByteMyHeart.git</a></p>
+<h2 id="setup-your-python">Setup your python</h2>
+<p>Firstly you should have python installed. In the making of this project we used Python 3.11.2.<br>
+If you don’t have python installed, you can get it here.<br>
+<a href="https://www.python.org/">https://www.python.org/</a></p>
+<h2 id="optional-create-a-venv-virtual-environment">(Optional) Create a venv (virtual environment)</h2>
+<p>For python projects you can create virtual environments. They are basically lightweight containers in which you can install the dependencies you need to run certain applications.<br>
+You can create a venv like this:</p>
+<pre><code>python -m venv /path/to/new/virtual/environment
+</code></pre>
+<p>After that you can start the virtual environment using one of these commands</p>
+<pre><code># For linux systems
+source /path/to/new/virtual/environment/Scripts/activate
+# For windows systems
+cd /path/to/new/virtual/environment/Scripts/
+activate.bat
+</code></pre>
+<h2 id="installing-dependencies">Installing dependencies</h2>
+<p>You can install dependencies using the following command in the ByteMyHeart folder</p>
+<pre><code>pip -m install requirements.txt
+</code></pre>
+<h2 id="setting-up-the-project">Setting up the project</h2>
+<p>Before you can run the project you need to run the following command</p>
+<pre><code>python manage.py migrate
+</code></pre>
+<h2 id="running-the-application">Running the application</h2>
+<p>You can start running the application using this command</p>
+<pre><code>python manage.py runserver
+</code></pre>
+<p>After running this command follow the link that will be displayed in the terminal</p>
+<h1 id="tests">Tests</h1>
+<p>We created some tests for validating some code. You can run this command for running these tests.</p>
+<pre><code>python manage.py test
+</code></pre>
+<p>And for seeing the coverage, run this command</p>
+<pre><code>coverage run ./manage.py test
+</code></pre>
+</div>
+</body>
+
+</html>
