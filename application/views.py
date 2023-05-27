@@ -7,6 +7,10 @@ from application.forms import LoginForm, ReportForm, UserRegisterForm, BigRegist
 
 user = None
 logInUser = None
+matchingUsers = None
+tournamentUsers = None
+round = 0
+done = 0
 
 class BigRegisterFormView(View):
     def get(self, request):
@@ -250,6 +254,8 @@ class CreateReportView(View):
 
 class UserMainPageView(View):
     def get(self, request):
+        global round
+        round = 0
         return render(request, "application/main_page_users.html",{
             'username': logInUser.username,
         })
@@ -320,3 +326,120 @@ class ViewProfileView(View):
         return render(request, "application/ViewMyProfile.html", {
             'form': user.formId
         })
+class MatchLogicView(View):
+    def get(self, request, choice):
+        global round
+        global matchingUsers
+        global tournamentUsers
+        if round == -1:
+            round = 0
+        elif round == 0:
+            if choice == 1:
+                tournamentUsers[0] = matchingUsers[0]
+            else:
+                tournamentUsers[0] = matchingUsers[1]
+            round = 1
+            tournamentUsers[7] = matchingUsers[2]
+            tournamentUsers[8] = matchingUsers[3]
+        elif round == 1:
+            if choice == 1:
+                tournamentUsers[1] = matchingUsers[2]
+            else:
+                tournamentUsers[1] = matchingUsers[3]
+            round = 2
+            tournamentUsers[7] = matchingUsers[4]
+            tournamentUsers[8] = matchingUsers[5]
+        elif round == 2:
+            if choice == 1:
+                tournamentUsers[2] = matchingUsers[4]
+            else:
+                tournamentUsers[2] = matchingUsers[5]
+            round = 3
+            tournamentUsers[7] = matchingUsers[6]
+            tournamentUsers[8] = matchingUsers[7]
+        elif round == 3:
+            if choice == 1:
+                tournamentUsers[3] = matchingUsers[6]
+            else:
+                tournamentUsers[3] = matchingUsers[7]
+            round = 4
+            tournamentUsers[7] = tournamentUsers[0]
+            tournamentUsers[8] = tournamentUsers[1]
+        elif round == 4:
+            if choice == 1:
+                tournamentUsers[4] = tournamentUsers[0]
+            else:
+                tournamentUsers[4] = tournamentUsers[1]
+            round = 5
+            tournamentUsers[7] = tournamentUsers[2]
+            tournamentUsers[8] = tournamentUsers[3]
+        elif round == 5:
+            if choice == 1:
+                tournamentUsers[5] = tournamentUsers[2]
+            else:
+                tournamentUsers[5] = tournamentUsers[3]
+            round = 6
+            tournamentUsers[7] = tournamentUsers[4]
+            tournamentUsers[8] = tournamentUsers[5]
+
+        elif round == 6:
+            if choice == 1:
+                tournamentUsers[6] = tournamentUsers[4]
+            else:
+                tournamentUsers[6] = tournamentUsers[5]
+            round = 7
+
+        return HttpResponseRedirect("/match")
+    
+
+
+class MatchView(View):
+    def get(self, request):
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        global round
+        global matchingUsers
+        global tournamentUsers
+        global done
+        if round == 0:
+            matchingUsers = User.objects.all()
+            matchingUsers = matchingUsers.exclude(username=logInUser.username)
+            matchingUsers = matchingUsers.exclude(role=0)
+            done = 0
+
+            for user in logInUser.matchId.all():
+                matchingUsers = matchingUsers.exclude(username=user.username)
+
+            tournamentUsers = [None] * 9
+            tournamentUsers[7] = matchingUsers[0]
+            tournamentUsers[8] = matchingUsers[1]
+
+        elif round == 7:
+            logInUser.matchId.add(tournamentUsers[6])
+            logInUser.save()
+            done = 1
+            round = 0
+
+
+        return render(request, "application/match.html", {
+            'player1': matchingUsers[0],
+            'player2': matchingUsers[1],
+            'player3': matchingUsers[2],
+            'player4': matchingUsers[3],
+            'player5': matchingUsers[4],
+            'player6': matchingUsers[5],
+            'player7': matchingUsers[6],
+            'player8': matchingUsers[7],
+            'winner1': tournamentUsers[0],
+            'winner2': tournamentUsers[1],
+            'winner3': tournamentUsers[2],
+            'winner4': tournamentUsers[3],
+            'finalist1': tournamentUsers[4],
+            'finalist2': tournamentUsers[5],
+            'champion': tournamentUsers[6],
+            'choice1': tournamentUsers[7],
+            'choice2': tournamentUsers[8],
+            'done': done
+        })
+
+        
