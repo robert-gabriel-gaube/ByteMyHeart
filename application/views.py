@@ -64,8 +64,9 @@ class LoginView(View):
         form = LoginForm(request.POST)
 
         if form.is_valid():
-            user=User.objects.get(username=form.cleaned_data['username'])
-            if user is not None:
+            if User.objects.filter(username=form.cleaned_data['username']).exists():
+                user=User.objects.get(username=form.cleaned_data['username'])
+                
                 if check_password(form.cleaned_data['password'], user.password):
                     global logInUser
                     logInUser=user
