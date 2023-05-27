@@ -13,4 +13,5 @@ urlpatterns = [
     path('user-main-page', views.UserMainPageView.as_view()),
     path('', views.IndexPageView.as_view()),
     path('login', views.LoginView.as_view()),
+    path('matches/match/<username>' , views.MatchView.as_view()),
 ]
