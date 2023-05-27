@@ -51,8 +51,9 @@
             <h1>Create report</h1>
         </div>
         <div id="content">
-            <form action="\" method="POST">
+            <form action="/create-report/" method="POST">
                 {% for field in form %} 
+                    {% csrf_token %}
                     <div class="form-control">
                         {{ field.label_tag }} 
                         {{ field }}
