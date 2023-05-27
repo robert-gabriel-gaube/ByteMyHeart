@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ByteMyHeart</title>
+    <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+    <style>
+        body{
+            font-family: Lexend;
+            margin: 0
+        }
+        .form-control{
+            margin: 10px 0;
+        }
+
+        input{
+            color: #F15A59;
+        }
+
+    </style>
+</head>
+<body style="text-align: center;">
+    <h1 style="color: black;text-align: center; font-family: 'Lexend'">Profile</h1>
+    <div >
+    <p>Name: {{user.name}}</p>
+    <p>Age: {{user.age}}</p>
+    <p>Favorite programming language: {{user.programming_language}}</p>
+    <p>University specialization: {{user.university_specialization}}</p>
+    <p>Favorite course 1: {{user.course_fav1}}</p>
+    <p>Favorite course 2: {{user.course_fav2}}</p>
+    <p>Favorite course 3: {{user.course_fav3}}</p>
+    <p>Hobby 1: {{user.hobby1}}</p>
+    <p>Hobby 2: {{user.hobby2}}</p>
+    <p>Hobby 3: {{user.hobby3}}</p>
+    <p>Hobby 4: {{user.hobby4}}</p>
+    <p>Hobby 5: {{user.hobby5}}</p>
+    <p>Gender: {{user.gender}}</p>
+    <p>Interest: {{user.interest}}</p>
+    <p>Favorite algorithm: {{user.favorite_algorithm}}</p>
+    <p>Favorite data structure: {{user.favorite_data_structure}}</p>
+    <p>Short description: {{user.short_description}}</p>
+    </div>
+    <button style="background-color: #D21312;align-content: end;font-family: 'Lexend'; color: white; border-radius: 10px; border-color: #D21312;" type="button" onclick="location.href='/profile/edit'">Edit</button>
+</body>
+</html>
