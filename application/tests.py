@@ -4,6 +4,36 @@ from django.test import TestCase
 from .models import DateOffer, Report, User, Form
 from django.contrib.auth.hashers import make_password
 
+class TestMatchesField(TestCase):
+    def setUp(self):
+        user1 = User(
+            username='CandyButcher',
+            password=make_password("123456"),
+        )
+        user1.save()
+        user2 = User(
+            username='CandyButcher2',
+            password=make_password("123456"),
+        )
+        user2.save()
+        user3 = User(
+            username='CandyButcher3',
+            password=make_password("123456"),
+        )
+        user3.save()
+    def add_users_to_match_field(self):
+        
+        user1 = User.objects.get(username='CandyButcher')
+        user2 = User.objects.get(username='CandyButcher2')
+        user3 = User.objects.get(username='CandyButcher3')
+        user1.matches.add(user2)
+        user1.matches.add(user3)
+        user1.save()
+        
+        self.assertEqual(user1.matches.all()[0], user2)
+        self.assertEqual(user1.matches.all()[1], user3)
+
+
 class ReportsTest(TestCase):
     def setUp(self):
         form = Form(
@@ -30,7 +60,7 @@ class ReportsTest(TestCase):
         user = User(
             username='CandyButcher',
             password=make_password("123456"),
-            matchId=None,
+            
             formId=form
         )
 
@@ -74,7 +104,6 @@ class ReportsShowTest(TestCase):
         user = User(
             username='CandyButcher',
             password=make_password("123456"),
-            matchId=None,
             formId=form
         )
 
@@ -138,7 +167,7 @@ class ReportsActionTest(TestCase):
         user = User(
             username='CandyButcher',
             password=make_password("123456"),
-            matchId=None,
+            
             formId=form
         )
 
@@ -224,7 +253,7 @@ class CreateReportTest(TestCase):
         user = User(
             username='CandyButcher',
             password=make_password("123456"),
-            matchId=None,
+            
             formId=form
         )
 
@@ -292,7 +321,7 @@ class UserLoginFormTest(TestCase):
         user = User(
             username='Fermecatu',
             password=make_password("123456"),
-            matchId=None,
+            
             formId=None
         )
         user.save()
@@ -306,7 +335,7 @@ class UserLoginFormTest(TestCase):
         user = User(
             username='admin',
             password=make_password("admin"),
-            matchId=None,
+            
             formId=None,
             role=0
         )
@@ -322,7 +351,7 @@ class UserLoginFormTest(TestCase):
         user = User(
             username='Fermecatu',
             password=make_password("123456"),
-            matchId=None,
+            
             formId=None
         )
         user.save()
@@ -338,14 +367,14 @@ class DateOfferModelTest(TestCase):
         user1 = User(
             username='Fermecatu',
             password=make_password("123456"),
-            matchId=None,
+            
             formId=None
         )
         user1.save()
         user2 = User(
             username='CandyButcher',
             password=make_password("123456"),
-            matchId=None,
+            
             formId=None
         )
         user2.save()
@@ -400,7 +429,7 @@ class ViewMyProfileTest(TestCase):
         user = User(
             username='Fermecatu',
             password=make_password("123456"),
-            matchId=None,
+            
             formId=user
         )
         user.save()
