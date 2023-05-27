@@ -177,3 +177,22 @@ class SetDateOfferView(View):
         date_offer.status = status
         date_offer.save()
         return HttpResponseRedirect("/matches/match/" + date_offer.senderId.username)
+    
+class MatchesView(View):
+    def get(self, request):
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        
+        return render(request, "application/matches.html", {
+            'matches': logInUser.matchId.all()
+        })
+    
+class ViewProfileView(View):
+    def get(self, request, username):
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+
+        user = User.objects.get(username=username)
+        return render(request, "application/ViewMyProfile.html", {
+            'form': user.formId
+        })
