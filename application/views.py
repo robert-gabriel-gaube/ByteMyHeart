@@ -12,6 +12,10 @@ tournamentUsers = None
 round = 0
 done = 0
 
+class BlockedView(View):
+    def get(self, request):
+        return render(request, "application/Blocked.html")
+
 class BigRegisterFormView(View):
     def get(self, request):
         bigform = BigRegisterForm()
@@ -86,6 +90,8 @@ class ReportsView(View):
     
 class ViewMyProfileView(View):
     def get(self, request):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         if logInUser is None:
             return HttpResponseRedirect("/login")
         return render(request, "application/ViewMyProfile.html", {
@@ -94,6 +100,8 @@ class ViewMyProfileView(View):
     
 class EditMyProfileView(View):
     def get(self, request):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         if logInUser is None:
             return HttpResponseRedirect("/login")
         form = EditMyProfileForm()
@@ -236,6 +244,8 @@ class ReportView(View):
     
 class CreateReportView(View):
     def get(self, request):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         form = ReportForm()
         return render(request, "application/create_report.html", {
             'form': form
@@ -254,6 +264,8 @@ class CreateReportView(View):
 
 class UserMainPageView(View):
     def get(self, request):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         global round
         round = 0
         return render(request, "application/main_page_users.html",{
@@ -266,6 +278,8 @@ class IndexPageView(View):
     
 class MatchView(View):
     def get(self, request, username):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         if logInUser is None:
             return HttpResponseRedirect("/login")
 
@@ -303,6 +317,8 @@ class MatchView(View):
         
 class SetDateOfferView(View):
     def get(self, request, pk, status):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         date_offer = DateOffer.objects.get(pk=pk)
         date_offer.status = status
         date_offer.save()
@@ -310,6 +326,8 @@ class SetDateOfferView(View):
     
 class MatchesView(View):
     def get(self, request):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         if logInUser is None:
             return HttpResponseRedirect("/login")
         
@@ -319,6 +337,8 @@ class MatchesView(View):
     
 class ViewProfileView(View):
     def get(self, request, username):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         if logInUser is None:
             return HttpResponseRedirect("/login")
 
@@ -328,6 +348,8 @@ class ViewProfileView(View):
         })
 class MatchLogicView(View):
     def get(self, request, choice):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         global round
         global matchingUsers
         global tournamentUsers
@@ -395,6 +417,8 @@ class MatchLogicView(View):
 
 class MatchView(View):
     def get(self, request):
+        if logInUser.isBanned:
+            return HttpResponseRedirect("/blocked")
         if logInUser is None:
             return HttpResponseRedirect("/login")
         global round
