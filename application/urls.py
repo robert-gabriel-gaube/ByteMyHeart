@@ -20,4 +20,6 @@ urlpatterns = [
     path('set-date-offer/<int:pk>/<status>', views.SetDateOfferView.as_view()),    
     path('matches', views.MatchesView.as_view()),
     path('view-profile/<username>', views.ViewProfileView.as_view()),
+    path('match', views.MatchView.as_view()),
+    path('match-logic/<int:choice>', views.MatchLogicView.as_view()),
 ]
