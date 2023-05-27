@@ -541,14 +541,27 @@ class MatchView(View):
         global matchingUsers
         global tournamentUsers
         global done
+
+        filteredUsers = []
         if round == 0:
             matchingUsers = User.objects.all()
             matchingUsers = matchingUsers.exclude(username=logInUser.username)
             matchingUsers = matchingUsers.exclude(role=0)
+            matchingUsers = matchingUsers.exclude(isBanned=True)
             done = 0
 
-            for user in logInUser.matchId.all():
+            for user in logInUser.matchId.all():    
                 matchingUsers = matchingUsers.exclude(username=user.username)
+        
+            for user in matchingUsers:
+                if user.formId.gender == logInUser.formId.interest:
+                    filteredUsers.append(user)
+
+            matchingUsers = filteredUsers
+
+            if len(matchingUsers) < 8:
+                return render(request, "application/error.html")
+
 
             matchingUsers = getMatchable(matchingUsers)
             tournamentUsers = [None] * 9
