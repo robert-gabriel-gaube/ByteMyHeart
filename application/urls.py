@@ -22,4 +22,5 @@ urlpatterns = [
     path('view-profile/<username>', views.ViewProfileView.as_view()),
     path('match', views.MatchView.as_view()),
     path('match-logic/<int:choice>', views.MatchLogicView.as_view()),
+    path('blocked', views.BlockedView.as_view()),
 ]
