@@ -92,12 +92,14 @@
                     <p>{{ offer.date_location }}</p>
                     <p id="title">Time</p>
                     <p>{{ offer.date_time }}</p>
-                    {% if offer.status == "pending" %}
+                    {% if offer.status == "PND" and date.username == offer.senderId.username %}
                         <div id="buttons">
                             <a href="#">Counter-offer</a>
                             <a href="#">Accept</a>
                         </div>
                     {% endif %}
+                </div>
+            </div>
         {% endfor %}
         {% if form %}
             <div id="offer">

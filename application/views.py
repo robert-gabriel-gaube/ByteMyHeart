@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password, check_password
-from application.models import Report, User
+from application.models import Report, User, DateOffer
 from application.forms import LoginForm, ReportForm, UserRegisterForm, BigRegisterForm
 
 user = None
@@ -124,3 +124,23 @@ class UserMainPageView(View):
 class IndexPageView(View):
     def get(self, request):
         return render(request, "application/IndexPage.html")
+    
+class MatchView(View):
+    def get(self, request, username):
+        print(logInUser)
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+
+        match = User.objects.get(username=username)
+        offers1 = DateOffer.objects.filter(senderId=logInUser, receiverId=match)
+        offers2 = DateOffer.objects.filter(receiverId=logInUser, senderId=match)
+
+        offers = offers1 | offers2
+        
+        offers = offers.order_by('created_at')
+
+        return render(request, "application/date_offer.html", {
+            'offers': offers,
+            'date': match,
+            'loggedUser': logInUser
+        })

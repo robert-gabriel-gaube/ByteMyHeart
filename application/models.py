@@ -41,7 +41,9 @@ class User(models.Model):
                                null=False)  # 1 -> user
     matchId = models.OneToOneField('self', on_delete=models.CASCADE, null=True)
     formId = models.OneToOneField(Form, on_delete=models.CASCADE, null=True)
-
+    def __str__(self):
+        return self.username
+    
 class Report(models.Model):
     receiverID = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     description = models.CharField(max_length=300, blank=False, null=False)
