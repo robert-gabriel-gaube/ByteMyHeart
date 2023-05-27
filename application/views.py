@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password, check_password
 from application.models import Report, User, DateOffer, Form
-from application.forms import LoginForm, ReportForm, UserRegisterForm, BigRegisterForm
+from application.forms import LoginForm, ReportForm, UserRegisterForm, BigRegisterForm, DateOfferForm
 
 user = None
 logInUser = None
@@ -136,7 +136,6 @@ class IndexPageView(View):
     
 class MatchView(View):
     def get(self, request, username):
-        print(logInUser)
         if logInUser is None:
             return HttpResponseRedirect("/login")
 
@@ -146,10 +145,35 @@ class MatchView(View):
 
         offers = offers1 | offers2
         
-        offers = offers.order_by('created_at')
+        display_form = False
+        form = DateOfferForm()
+        if offers:
+            offers = offers.order_by('created_at')
+            if offers.last().status == 'DEC':
+                display_form = True
+        else:
+            display_form = True
 
         return render(request, "application/date_offer.html", {
             'offers': offers,
             'date': match,
-            'loggedUser': logInUser
+            'loggedUser': logInUser,
+            'display_form': display_form,
+            'form': form
         })
+    
+    def post(self, request, username):
+        form = DateOfferForm(request.POST)
+        if form.is_valid():
+            date_offer = form.save(commit=False)
+            date_offer.senderId = logInUser
+            date_offer.receiverId = User.objects.get(username=username)
+            date_offer.save()
+        return HttpResponseRedirect("/matches/match/" + username)
+        
+class SetDateOfferView(View):
+    def get(self, request, pk, status):
+        date_offer = DateOffer.objects.get(pk=pk)
+        date_offer.status = status
+        date_offer.save()
+        return HttpResponseRedirect("/matches/match/" + date_offer.senderId.username)

@@ -76,6 +76,10 @@
             padding: 10px 20px;
             margin: 20px;
         }
+        #status {
+            padding: 10px;
+            font-size: 2em;
+        }
     </style>
 </head>
 <body>
@@ -94,14 +98,22 @@
                     <p>{{ offer.date_time }}</p>
                     {% if offer.status == "PND" and date.username == offer.senderId.username %}
                         <div id="buttons">
-                            <a href="#">Counter-offer</a>
-                            <a href="#">Accept</a>
+                            <a href="/set-date-offer/{{ offer.pk }}/DEC">Counter-offer</a>
+                            <a href="/set-date-offer/{{ offer.pk }}/ACC">Accept</a>
                         </div>
+                    {% endif %}
+                    {% if offer.status == "ACC" %}
+                        <p id="title">Status</p>
+                        <p id="status">Accepted</p>
+                    {% endif %}
+                    {% if offer.status == "DEC" %}
+                        <p id="title">Status</p>
+                        <p id="status">DECLINED</p>
                     {% endif %}
                 </div>
             </div>
         {% endfor %}
-        {% if form %}
+        {% if display_form %}
             <div id="offer">
                 <div id="right">
                     <form action='' method="POST">
