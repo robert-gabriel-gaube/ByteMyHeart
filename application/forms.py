@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Form, Report
+from .models import User, Form, Report, DateOffer   
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", max_length=100)
@@ -125,4 +125,25 @@ class ReportForm(forms.ModelForm):
                 "required": "This field must not be empty!",
                 "max_length": "Please enter a shorter description!"
             }
+        }
+
+class DateOfferForm(forms.ModelForm):
+    class Meta:
+        model = DateOffer
+        fields = ['date_idea', 'date_time', 'date_location']
+        labels = {
+                'date_idea': 'Date idea',
+                'date_time': 'Date time',
+                'date_location': 'Date location',
+        }
+        error_messages = {
+            "date_idea": {
+                "required": "This field must not be empty!",
+            },
+            "date_time": {
+                "required": "This field must not be empty!",
+            },
+            "date_location": {
+                "required": "This field must not be empty!",
+            },
         }
