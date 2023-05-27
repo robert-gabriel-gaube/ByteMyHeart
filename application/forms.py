@@ -149,6 +149,14 @@ class DateOfferForm(forms.ModelForm):
         }
 
 class EditMyProfileForm(forms.Form):
+    UNKNOWN = "-"
+    FEMININ = "F"
+    MASCULIN = "M"
+    GENDER_CHOICES = [
+        (FEMININ, "FEMALE"),
+        (MASCULIN, "MALE")
+    ]
+
     name = forms.CharField(label="Name", max_length=40)
     age = forms.IntegerField(label="Age")
     programming_language = forms.CharField(label="Favorite Programming Language", max_length=10)
@@ -161,17 +169,10 @@ class EditMyProfileForm(forms.Form):
     hobby3 = forms.CharField(label="Third hobby", max_length=15)
     hobby4 = forms.CharField(label="Fourth hobby", max_length=15)
     hobby5 = forms.CharField(label="Fifth hobby", max_length=15)
-    UNKNOWN = "-"
-    FEMININ = "F"
-    MASCULIN = "M"
-    GENDER_CHOICES = [
-        (FEMININ, "FEMININ"),
-        (MASCULIN, "MASCULIN")
-    ]
     gender = forms.ChoiceField(choices=GENDER_CHOICES)
     interest = forms.ChoiceField(choices=GENDER_CHOICES)
-    favorite_algorithm = forms.CharField(label="Favorite algorithm", max_length=15)
-    favorite_data_structure = forms.CharField(label="Favorite data structure", max_length=15)
+    favorite_algorithm = forms.CharField(label="Favorite algorithm", max_length=30)
+    favorite_data_structure = forms.CharField(label="Favorite data structure", max_length=30)
     short_description = forms.CharField(label="Your description", max_length=50)
 
     def __init__(self, *args, **kwargs):

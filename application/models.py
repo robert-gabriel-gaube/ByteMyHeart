@@ -4,6 +4,14 @@ from django.db import models
 
 # Create your models here.
 class Form(models.Model):
+    UNKNOWN = "-"
+    FEMININ = "F"
+    MASCULIN = "M"
+    GENDER_CHOICES = [
+        (FEMININ, "FEMALE"),
+        (MASCULIN, "MALE")
+    ]
+
     name = models.CharField(max_length=40, null=False)
     age = models.IntegerField(null=False, validators=[MinValueValidator(18)])
     programming_language = models.CharField(max_length=10, null=False)
@@ -16,20 +24,10 @@ class Form(models.Model):
     hobby3 = models.CharField(max_length=15, null=False)
     hobby4 = models.CharField(max_length=15, null=False)
     hobby5 = models.CharField(max_length=15, null=False)
-    UNKNOWN = "-"
-    FEMININ = "F"
-    MASCULIN = "M"
-    GENDER_CHOICES = [
-        (FEMININ, "FEMININ"),
-        (MASCULIN, "MASCULIN")
-    ]
-
-    def is_upperclass(self):
-        return self.GENDER_CHOICES in {self.FEMININ, self.MASCULIN}
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     interest = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    favorite_algorithm = models.CharField(max_length=15, null=False)
-    favorite_data_structure = models.CharField(max_length=15, null=False)
+    favorite_algorithm = models.CharField(max_length=30, null=False)
+    favorite_data_structure = models.CharField(max_length=30, null=False)
     short_description = models.CharField(max_length=50, null=False)
 
 
