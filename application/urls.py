@@ -16,4 +16,6 @@ urlpatterns = [
     path('matches/match/<username>' , views.MatchView.as_view()),
     path('view-my-profile/' , views.ViewMyProfileView.as_view()),
     path('set-date-offer/<int:pk>/<status>', views.SetDateOfferView.as_view()),    
+    path('matches', views.MatchesView.as_view()),
+    path('view-profile/<username>', views.ViewProfileView.as_view()),
 ]

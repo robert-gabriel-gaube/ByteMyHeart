@@ -13,41 +13,40 @@
                 text-align: center;
             }
             #content {
-                border-radius: 10px;
-                margin: auto;
                 width: 50vw;
-                text-align: center;
-                color: white;
-                overflow: auto;
-                padding: 20px 0 30px 0;
+                margin: auto;
+                padding-top: 5vh;
             }
             #content ul {
                 list-style-type: none;
+                text-align: center;
             }
             #content ul li {
+                margin: 20px 0;
                 padding: 10px;
-                margin: 30px;
-                background-color: #D21312;
-                border-radius: 10px;
+                border-radius: 5px;
+                background-color: #F15A59;
             }
-            #content ul li a {
+            #content a {
                 text-decoration: none;
-                color: white;
-                font-size: 1.5em;
+                font-size: 20px;
+                color: black;
+                padding: 0px 10%;
             }
         </style>
     </head>
     <body>
         <div id="header">
-            <h1>Main User Page</h1>
+            <h1>Matches</h1>
         </div>
-        <div id="content"> 
+
+        <div id="content">
             <ul>
-               <li><a href="#">Match</a></li>
-               <li><a href="/matches">Set up dates</a></li>
-               <li><a href="/view-my-profile/">View and edit profile</a></li>
-               <li><a href="/create-report">Create Report</a></li>
+                {% for match in matches %}
+                    <li><a href="matches/match/{{ match.username }}">{{ match.username }}</a><a href="/view-profile/{{ match.username }}">View Profile</a></li>
+                {% endfor %}
             </ul>
-        </div>
+        </div>  
+
     </body>
 </html>
