@@ -461,9 +461,102 @@ class MatchLogicView(View):
                         tournamentUsers[6] = tournamentUsers[5]
                     round = 7
 
-                return HttpResponseRedirect("/match")
-            
 
+                return HttpResponseRedirect("/match")
+    
+from .match_data import hobby_categories, algorithm_categories, data_structure_categories
+
+def getCategory(hobby):
+    idx = 0
+        
+    for category in hobby_categories:
+        for subcategory in category:
+            if hobby.lower() == subcategory.lower():
+                return idx
+        idx += 1
+    return -1
+
+def getHobbyCategories(user):
+    userCategories = []
+    for hobby in [user.formId.hobby1, user.formId.hobby2, user.formId.hobby3, user.formId.hobby4, user.formId.hobby5]:
+        userCategories.append(getCategory(hobby))
+    return userCategories
+
+def ageFormula(age1, age2):
+    age_diff = age1 - age2
+    if age_diff > -4 and age_diff < 6:
+        return 1.0
+    elif age_diff >= 30:
+        return 0.0
+    else:
+        return 1.0 - (abs(age_diff) - 5) / 25.0
+
+def algorithmFormula(algorithm1, algorithm2):
+    categoryA1 = -1
+    categoryA2 = -1
+    idx = 0
+    for category in algorithm_categories:
+        for subcategory in category:
+            if algorithm1.lower() in subcategory.lower() or subcategory.lower() in algorithm1.lower():
+                categoryA1 = idx
+            if algorithm2.lower() in subcategory.lower() or subcategory.lower() in algorithm2.lower():
+                categoryA2 = idx
+        idx += 1
+
+    if categoryA1 == -1 or categoryA2 == -1:
+        return 0.5
+    elif categoryA2 == categoryA1:
+        return 1.0
+    else:
+        return 0.0
+
+def dataStructureFormula(dataStructure1, dataStructure2):
+    idx = 0
+    categoryDS1 = -1
+    categoryDS2 = -1
+
+    for category in data_structure_categories:
+        for subcategory in category:
+            if dataStructure1.lower() in subcategory.lower() or subcategory.lower() in dataStructure1.lower():
+                categoryDS1 = idx
+            if dataStructure2.lower() in subcategory.lower() or subcategory.lower() in dataStructure2.lower():
+                categoryDS2 = idx
+        idx += 1
+    if categoryDS1 == -1 or categoryDS2 == -1:
+        return 0.5
+    elif categoryDS2 == categoryDS1:
+        return 1.0
+    else:
+        return 0.0
+
+def getMatchable(availableUsers):
+    logedUserCategories = getHobbyCategories(logInUser)
+    
+    ageScores = []
+    hobbyScores = []
+    algorithmScores = []
+    dataStructureScores = []
+    matchabilityScores = []
+
+    for user in availableUsers:
+        likeHobby = 0
+        userCategories = getHobbyCategories(user)
+        for category in logedUserCategories:
+            if category != -1 and category in userCategories:
+                likeHobby += 1
+        hobbyScores.append(likeHobby / 5)
+        ageScores.append(ageFormula(logInUser.formId.age))
+        algorithmScores.append(algorithmFormula(logInUser.formId.favorite_algorithm, user.formId.favorite_algorithm))
+        dataStructureScores.append(dataStructureFormula(logInUser.formId.favorite_data_structure, user.formId.favorite_data_structure))
+        matchabilityScores.append(hobbyScores[-1] * 0.5 + ageScores[-1] * 0.2 + algorithmScores[-1] * 0.2 + dataStructureScores[-1] * 0.1)
+        
+    for i in range(len(matchabilityScores)):
+        for j in range(i + 1, len(matchabilityScores)):
+            if matchabilityScores[i] < matchabilityScores[j]:
+                matchabilityScores[i], matchabilityScores[j] = matchabilityScores[j], matchabilityScores[i]
+                availableUsers[i], availableUsers[j] = availableUsers[j], availableUsers[i]
+
+    return availableUsers
 
 class MatchView(View):
     def get(self, request):
@@ -473,51 +566,49 @@ class MatchView(View):
             if logInUser.role == 1:
                 if logInUser.isBanned:
                     return HttpResponseRedirect("/blocked")
-                if logInUser is None:
-                    return HttpResponseRedirect("/login")
-                global round
-                global matchingUsers
-                global tournamentUsers
-                global done
-                if round == 0:
-                    matchingUsers = User.objects.all()
-                    matchingUsers = matchingUsers.exclude(username=logInUser.username)
-                    matchingUsers = matchingUsers.exclude(role=0)
-                    done = 0
+               
+        global round
+        global matchingUsers
+        global tournamentUsers
+        global done
+        if round == 0:
+            matchingUsers = User.objects.all()
+            matchingUsers = matchingUsers.exclude(username=logInUser.username)
+            matchingUsers = matchingUsers.exclude(role=0)
+            done = 0
 
-                    for user in logInUser.matchId.all():
-                        matchingUsers = matchingUsers.exclude(username=user.username)
+            for user in logInUser.matchId.all():
+                matchingUsers = matchingUsers.exclude(username=user.username)
 
-                    tournamentUsers = [None] * 9
-                    tournamentUsers[7] = matchingUsers[0]
-                    tournamentUsers[8] = matchingUsers[1]
+            matchingUsers = getMatchable(matchingUsers)
+            tournamentUsers = [None] * 9
+            tournamentUsers[7] = matchingUsers[0]
+            tournamentUsers[8] = matchingUsers[1]
 
-                elif round == 7:
-                    logInUser.matchId.add(tournamentUsers[6])
-                    logInUser.save()
-                    done = 1
-                    round = 0
+        elif round == 7:
+            logInUser.matchId.add(tournamentUsers[6])
+            logInUser.save()
+            done = 1
+            round = 0
 
 
-                return render(request, "application/match.html", {
-                    'player1': matchingUsers[0],
-                    'player2': matchingUsers[1],
-                    'player3': matchingUsers[2],
-                    'player4': matchingUsers[3],
-                    'player5': matchingUsers[4],
-                    'player6': matchingUsers[5],
-                    'player7': matchingUsers[6],
-                    'player8': matchingUsers[7],
-                    'winner1': tournamentUsers[0],
-                    'winner2': tournamentUsers[1],
-                    'winner3': tournamentUsers[2],
-                    'winner4': tournamentUsers[3],
-                    'finalist1': tournamentUsers[4],
-                    'finalist2': tournamentUsers[5],
-                    'champion': tournamentUsers[6],
-                    'choice1': tournamentUsers[7],
-                    'choice2': tournamentUsers[8],
-                    'done': done
-                })
-
-            
+        return render(request, "application/match.html", {
+            'player1': matchingUsers[0],
+            'player2': matchingUsers[1],
+            'player3': matchingUsers[2],
+            'player4': matchingUsers[3],
+            'player5': matchingUsers[4],
+            'player6': matchingUsers[5],
+            'player7': matchingUsers[6],
+            'player8': matchingUsers[7],
+            'winner1': tournamentUsers[0],
+            'winner2': tournamentUsers[1],
+            'winner3': tournamentUsers[2],
+            'winner4': tournamentUsers[3],
+            'finalist1': tournamentUsers[4],
+            'finalist2': tournamentUsers[5],
+            'champion': tournamentUsers[6],
+            'choice1': tournamentUsers[7],
+            'choice2': tournamentUsers[8],
+            'done': done
+        })
