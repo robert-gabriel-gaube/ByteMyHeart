@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Match Tournament</title>
+  <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: 'Lexend', sans-serif;
+    }
+    #header {
+        padding-top: 3vh;
+        margin: auto;
+        text-align: center;
+    }
+    .tournament-bracket {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      max-height: 100vh;
+      padding-left: 15vw;
+    }
+    .round {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+
+    }
+    .match {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .team {
+      display: inline-block;
+      padding: 3vh 2vw;
+      margin: 10px;
+      color: white;
+      background-color: #F15A59;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    .winner {
+      background-color: #D21312;
+      color: white;
+    }
+    .two .winner{
+      margin: 40px 20px;
+    }
+    .three .winner {
+      margin: 80px 20px;
+    }
+    .champion {
+      padding: 50px;
+      font-size: 23px;
+    }
+    #content {
+      width: 60vw;
+      margin: auto;
+      text-align: center;
+    }
+    #content a {
+      text-decoration: none;
+      font-size: 30px;
+      color: white;
+      padding: 0px 10%;
+      align-items: center;
+    }
+    #content table {
+      margin: auto;
+      font-size: 30px;
+      color: white;
+      text-align: center;
+    }
+    #players th {
+      background-color: #F15A59;
+      border-radius: 10px;
+      padding: 60px 50px;
+    }
+    #choices th {
+      background-color: #F15A59;
+      border-radius: 10px;
+      padding: 20px 0px;
+    }
+    table {
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <h1>Match tournament</h1>
+  </div>
+  <div class="tournament-bracket">
+    <div class="round">
+      <div class="match">
+        <div class="team">Player 1</div>
+        <div class="team">Player 2</div>
+      </div>
+      <div class="match">
+        <div class="team">Player 3</div>
+        <div class="team">Player 4</div>
+      </div>
+    </div>
+    <div class="round two">
+      <div class="match">
+        <div class="team winner">Winner 1</div>
+      </div>
+      <div class="match">
+        <div class="team winner">Winner 2</div>
+      </div>
+    </div>
+    <div class="round three">
+      <div class="match">
+        <div class="team winner">Finalist 1</div>
+      </div>
+    </div>
+    <div class="round">
+      <div class="match">
+        <div class="team winner champion">Champion</div>
+      </div>
+    </div>
+    <div class="round three">
+      <div class="match">
+        <div class="team winner">Finalist 1</div>
+      </div>
+    </div>
+    <div class="round two">
+      <div class="match">
+        <div class="team winner">Winner 1</div>
+      </div>
+      <div class="match">
+        <div class="team winner">Winner 2</div>
+      </div>
+    </div>
+    <div class="round">
+      <div class="match">
+        <div class="team">Player 1</div>
+        <div class="team">Player 2</div>
+      </div>
+      <div class="match">
+        <div class="team">Player 3</div>
+        <div class="team">Player 4</div>
+      </div>
+    </div>
+  </div>
+  <div id="content">
+    <table cellspacing="30px">
+      <tr id="players">
+        <th><a href="#">Player1</a></th>
+        <th><a href="#">Player2</a></th>
+      </tr>
+      <tr id="choices">
+        <th><a href="#">Choose1</a></th>
+        <th><a href="#">Choose2</a></th>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
