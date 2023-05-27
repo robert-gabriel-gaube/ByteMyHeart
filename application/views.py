@@ -516,7 +516,7 @@ def getMatchable(availableUsers):
             if category != -1 and category in userCategories:
                 likeHobby += 1
         hobbyScores.append(likeHobby / 5)
-        ageScores.append(ageFormula(logInUser.formId.age))
+        ageScores.append(ageFormula(logInUser.formId.age, user.formId.age))
         algorithmScores.append(algorithmFormula(logInUser.formId.favorite_algorithm, user.formId.favorite_algorithm))
         dataStructureScores.append(dataStructureFormula(logInUser.formId.favorite_data_structure, user.formId.favorite_data_structure))
         matchabilityScores.append(hobbyScores[-1] * 0.5 + ageScores[-1] * 0.2 + algorithmScores[-1] * 0.2 + dataStructureScores[-1] * 0.1)
