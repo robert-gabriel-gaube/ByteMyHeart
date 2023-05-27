@@ -131,103 +131,73 @@ class EditMyProfileView(View):
             print(name)
             if name != '':
                 logInUser.formId.name = name
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             age = form.cleaned_data['age']
             if age != '':
                 logInUser.formId.age = age
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             programming_language = form.cleaned_data['programming_language']
             if programming_language != '':
                 logInUser.formId.programming_language = programming_language
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             university_specialization = form.cleaned_data['university_specialization']
             if university_specialization != '':
                 logInUser.formId.university_specialization = university_specialization
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             course_fav1 = form.cleaned_data['course_fav1']
             if course_fav1 != '':
                 logInUser.formId.course_fav1 = course_fav1
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             course_fav2 = form.cleaned_data['course_fav2']
             if course_fav2 != '':
                 logInUser.formId.course_fav2 = course_fav2
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             course_fav3 = form.cleaned_data['course_fav3']
             if course_fav3 != '':
                 logInUser.formId.course_fav3 = course_fav3
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             hobby1 = form.cleaned_data['hobby1']
             if hobby1 != '':
                 logInUser.formId.hobby1 = hobby1
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             hobby2 = form.cleaned_data['hobby2']
             if hobby2 != '':
                 logInUser.formId.hobby2 = hobby2
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             hobby3 = form.cleaned_data['hobby3']
             if hobby3 != '':
                 logInUser.formId.hobby3 = hobby3
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             hobby4 = form.cleaned_data['hobby4']
             if hobby4 != '':
                 logInUser.formId.hobby4 = hobby4
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             hobby5 = form.cleaned_data['hobby5']
             if hobby5 != '':
                 logInUser.formId.hobby5 = hobby5
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             gender = form.cleaned_data['gender']
             if gender != '':
                 logInUser.formId.gender = gender
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             interest = form.cleaned_data['interest']
             if interest != '':
                 logInUser.formId.interest = interest
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             favorite_algorithm = form.cleaned_data['favorite_algorithm']
             if favorite_algorithm != '':
                 logInUser.formId.favorite_algorithm = favorite_algorithm
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             favorite_data_structure = form.cleaned_data['favorite_data_structure']
             if favorite_data_structure != '':
                 logInUser.formId.favorite_data_structure = favorite_data_structure
-            logInUser.formId.save()
-            logInUser.save()
-
+            
             short_description = form.cleaned_data['short_description']
             if short_description != '':
                 logInUser.formId.short_description = short_description
-            logInUser.formId.save()
+            
+            print(logInUser.formId.name)
+            
             logInUser.save()
 
             return HttpResponseRedirect("/view-my-profile")
