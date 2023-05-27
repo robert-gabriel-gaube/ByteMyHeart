@@ -307,7 +307,7 @@ class IndexPageView(View):
     def get(self, request):
         return render(request, "application/IndexPage.html")
     
-class MatchView(View):
+class ViewMatchView(View):
     def get(self, request, username):
         if logInUser is None:
             return HttpResponseRedirect("/login")
