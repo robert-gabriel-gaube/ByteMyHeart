@@ -401,11 +401,8 @@ class DateOfferModelTest(TestCase):
         self.assertEqual(date_offer.status, "ACC")
 
 
-#create a test for view my profile
 class ViewMyProfileTest(TestCase):
-    #create a user and a form
     def setUp(self):
-        #create a user
         form = Form(
             name='Andrei',
             age=20,
@@ -437,7 +434,6 @@ class ViewMyProfileTest(TestCase):
             response = self.client.get('/view-my-profile')
             self.assertEqual(response.status_code, 200)
         def test_view_my_profile_page_post(self):
-            #login
             response = self.client.post('/login', {
                 'username': 'Fermecatu',
                 'password': '123456',
@@ -490,3 +486,41 @@ class ViewMyProfileTest(TestCase):
             self.assertContains(response, 'Fermecatu')
             
             self.assertContains(response, '123456')
+
+#create test for edit profile
+class EditProfileTest(TestCase):
+    #create a user and a form
+    def setUp(self):
+        #create a form
+        form = Form(
+            name='Andrei',
+            age=20,
+            programming_language='C',
+            university_specialization='ETTI',
+            course_fav1="IC",
+            course_fav2="TS",
+            course_fav3="CD",
+            hobby1='coding',
+            hobby2='editing',
+            hobby3='analyzing',
+            hobby4='sleeping',
+            hobby5='cooking',
+            gender='M',
+            interest='F',
+            favorite_algorithm='viterbi',
+            favorite_data_structure='Graphs',
+            short_description='I like programming',
+        )
+        form.save()
+        #create a user
+        user = User(
+            username='Fermecatu',
+            password=make_password("123456"),
+            formId=form
+        )
+        user.save()
+    #test if the edit profile page is displayed
+    def test_edit_profile_page(self):
+        response = self.client.get('/edit-my-profile')
+        self.assertEqual(response.status_code, 301)
+
