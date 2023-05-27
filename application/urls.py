@@ -14,4 +14,5 @@ urlpatterns = [
     path('', views.IndexPageView.as_view()),
     path('login', views.LoginView.as_view()),
     path('matches/match/<username>' , views.MatchView.as_view()),
+    path('view-my-profile/' , views.ViewMyProfileView.as_view()),
 ]
