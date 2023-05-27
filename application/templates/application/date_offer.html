@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ dateUsername }}</title>
+    <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: 'Lexend', sans-serif;
+        }
+        #header {
+            padding-top: 3vh;
+            margin: auto;
+            text-align: center;
+            padding-bottom: 5vh;
+        }
+        #content {
+            border-radius: 10px;
+            margin: auto;
+            width: 50vw;
+            text-align: center;
+            overflow: auto;
+            padding: 20px 0 30px 0;
+            height: 70vh;
+            overflow: auto;
+            border: 1px solid black;
+        }
+        #offer {
+            width: 100%;
+        }
+        #left {
+            float: left;
+            width: 40%;
+            text-align: left;
+            margin-right: 50%;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #D21312;
+            color: white;
+        }
+        #right {
+            float: right;
+            width: 45%;
+            text-align: right;
+            margin-left: 50%;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #F15A59;
+            color: white;
+        }
+        #title {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        #content a{
+            background-color: #F15A59;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+        #buttons {
+            padding: 30px 0 0 0;
+        }
+        form button {
+            border: none;
+            background-color: #D21312;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>{{ date.username }}</h1>
+    </div>
+    <div id="content">
+        {% for offer in offers %}
+            <div id="offer">
+                <div id={% if offer.receiverId.username == loggedUser.username %}"left"{% else %}"right"{% endif %}>
+                    <p id="title">Date idea</p>
+                    <p>{{ offer.date_idea }}</p>
+                    <p id="title">Location</p>
+                    <p>{{ offer.date_location }}</p>
+                    <p id="title">Time</p>
+                    <p>{{ offer.date_time }}</p>
+                    {% if offer.status == "pending" %}
+                        <div id="buttons">
+                            <a href="#">Counter-offer</a>
+                            <a href="#">Accept</a>
+                        </div>
+                    {% endif %}
+        {% endfor %}
+        {% if form %}
+            <div id="offer">
+                <div id="right">
+                    <form action='' method="POST">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-control">
+                            {{ field.label_tag }} 
+                            {{ field }}
+                            {{ field.errors }}
+                        </div>
+                        {% endfor %}
+                        <button type="submit">Submit</button>
+                </div>  
+            </div>
+        {% endif %}
+        
+    </div>
+</body>
