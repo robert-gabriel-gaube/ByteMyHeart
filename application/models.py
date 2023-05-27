@@ -39,7 +39,7 @@ class User(models.Model):
     isBanned = models.BooleanField(default=False)
     role = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(1)], default=1,
                                null=False)  # 1 -> user
-    matchId = models.ManyToManyField('self', symmetrical=False, related_name='followings')
+    matchId = models.ManyToManyField('self', symmetrical=True)
     formId = models.OneToOneField(Form, on_delete=models.CASCADE, null=True)
     def __str__(self):
         return self.username
