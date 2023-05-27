@@ -12,6 +12,10 @@ tournamentUsers = None
 round = 0
 done = 0
 
+class BlockedView(View):
+    def get(self, request):
+        return render(request, "application/Blocked.html")
+
 class BigRegisterFormView(View):
     def get(self, request):
         bigform = BigRegisterForm()
@@ -74,33 +78,50 @@ class LoginView(View):
             "form": form
         })
     
+    
                    
 
 class ReportsView(View):
     def get(self, request):
-        reports = Report.objects.all
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 0:
+                reports = Report.objects.all
 
-        return render(request, "application/reports.html", {
-            'reports' : reports
-        })
-    
+                return render(request, "application/reports.html", {
+                    'reports' : reports
+                })
+        
 class ViewMyProfileView(View):
     def get(self, request):
         if logInUser is None:
             return HttpResponseRedirect("/login")
-        return render(request, "application/ViewMyProfile.html", {
-            'form' : logInUser.formId
-        })
-    
+        else:
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                if logInUser is None:
+                    return HttpResponseRedirect("/login")
+                return render(request, "application/ViewMyProfile.html", {
+                    'form' : logInUser.formId
+                })
+        
 class EditMyProfileView(View):
     def get(self, request):
         if logInUser is None:
             return HttpResponseRedirect("/login")
-        form = EditMyProfileForm()
-        return render(request, "application/EditMyProfile.html", {
-            'form' : form
-        })
-    
+        else:
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                if logInUser is None:
+                    return HttpResponseRedirect("/login")
+                form = EditMyProfileForm()
+                return render(request, "application/EditMyProfile.html", {
+                    'form' : form
+                })
+        
     def post(self, request):
 
         form = EditMyProfileForm(request.POST)
@@ -217,30 +238,44 @@ class EditMyProfileView(View):
     
 class ReportsActionView(View):
     def get(self, request, pk, username, status):
-        report = Report.objects.get(pk=pk)
-        report.status = 'CSD'
-        report.save()
-        user = User.objects.get(username=username)
-        user.isBanned = status
-        user.save()
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role ==0:
+                report = Report.objects.get(pk=pk)
+                report.status = 'CSD'
+                report.save()
+                user = User.objects.get(username=username)
+                user.isBanned = status
+                user.save()
 
-        return HttpResponseRedirect("/reports")
+                return HttpResponseRedirect("/reports")
 
 class ReportView(View):
     def get(self, request, pk):
-        report = Report.objects.get(pk=pk)
-        return render(request, "application/report.html", {
-            'report' : report,
-            'user' : report.receiverID
-        })
-    
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 0:
+                report = Report.objects.get(pk=pk)
+                return render(request, "application/report.html", {
+                    'report' : report,
+                    'user' : report.receiverID
+                })
+            
 class CreateReportView(View):
     def get(self, request):
-        form = ReportForm()
-        return render(request, "application/create_report.html", {
-            'form': form
-        })
-    
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                form = ReportForm()
+                return render(request, "application/create_report.html", {
+                    'form': form
+                })
+        
     def post(self, request):
         form = ReportForm(request.POST)
 
@@ -254,12 +289,20 @@ class CreateReportView(View):
 
 class UserMainPageView(View):
     def get(self, request):
-        global round
-        round = 0
-        return render(request, "application/main_page_users.html",{
-            'username': logInUser.username,
-        })
-    
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                global round
+                round = 0
+                return render(request, "application/main_page_users.html",{
+                    'username': logInUser.username,
+                })
+            else:
+                return HttpResponseRedirect("/")
+        
 class IndexPageView(View):
     def get(self, request):
         return render(request, "application/IndexPage.html")
@@ -268,30 +311,36 @@ class MatchView(View):
     def get(self, request, username):
         if logInUser is None:
             return HttpResponseRedirect("/login")
-
-        match = User.objects.get(username=username)
-        offers1 = DateOffer.objects.filter(senderId=logInUser, receiverId=match)
-        offers2 = DateOffer.objects.filter(receiverId=logInUser, senderId=match)
-
-        offers = offers1 | offers2
-        
-        display_form = False
-        form = DateOfferForm()
-        if offers:
-            offers = offers.order_by('created_at')
-            if offers.last().status == 'DEC':
-                display_form = True
         else:
-            display_form = True
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                if logInUser is None:
+                    return HttpResponseRedirect("/login")
 
-        return render(request, "application/date_offer.html", {
-            'offers': offers,
-            'date': match,
-            'loggedUser': logInUser,
-            'display_form': display_form,
-            'form': form
-        })
-    
+                match = User.objects.get(username=username)
+                offers1 = DateOffer.objects.filter(senderId=logInUser, receiverId=match)
+                offers2 = DateOffer.objects.filter(receiverId=logInUser, senderId=match)
+
+                offers = offers1 | offers2
+                
+                display_form = False
+                form = DateOfferForm()
+                if offers:
+                    offers = offers.order_by('created_at')
+                    if offers.last().status == 'DEC':
+                        display_form = True
+                else:
+                    display_form = True
+
+                return render(request, "application/date_offer.html", {
+                    'offers': offers,
+                    'date': match,
+                    'loggedUser': logInUser,
+                    'display_form': display_form,
+                    'form': form
+                })
+            
     def post(self, request, username):
         form = DateOfferForm(request.POST)
         if form.is_valid():
@@ -303,93 +352,117 @@ class MatchView(View):
         
 class SetDateOfferView(View):
     def get(self, request, pk, status):
-        date_offer = DateOffer.objects.get(pk=pk)
-        date_offer.status = status
-        date_offer.save()
-        return HttpResponseRedirect("/matches/match/" + date_offer.senderId.username)
-    
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                date_offer = DateOffer.objects.get(pk=pk)
+                date_offer.status = status
+                date_offer.save()
+                return HttpResponseRedirect("/matches/match/" + date_offer.senderId.username)
+        
 class MatchesView(View):
     def get(self, request):
         if logInUser is None:
             return HttpResponseRedirect("/login")
-        
-        return render(request, "application/matches.html", {
-            'matches': logInUser.matchId.all()
-        })
-    
+        else:
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                if logInUser is None:
+                    return HttpResponseRedirect("/login")
+                
+                return render(request, "application/matches.html", {
+                    'matches': logInUser.matchId.all()
+                })
+            
 class ViewProfileView(View):
     def get(self, request, username):
         if logInUser is None:
             return HttpResponseRedirect("/login")
+        else:
+            if logInUser.isBanned:
+                return HttpResponseRedirect("/blocked")
+            if logInUser is None:
+                return HttpResponseRedirect("/login")
 
-        user = User.objects.get(username=username)
-        return render(request, "application/ViewMyProfile.html", {
-            'form': user.formId
-        })
+            user = User.objects.get(username=username)
+            return render(request, "application/ViewMyProfile.html", {
+                'form': user.formId
+            })
 class MatchLogicView(View):
     def get(self, request, choice):
-        global round
-        global matchingUsers
-        global tournamentUsers
-        if round == -1:
-            round = 0
-        elif round == 0:
-            if choice == 1:
-                tournamentUsers[0] = matchingUsers[0]
-            else:
-                tournamentUsers[0] = matchingUsers[1]
-            round = 1
-            tournamentUsers[7] = matchingUsers[2]
-            tournamentUsers[8] = matchingUsers[3]
-        elif round == 1:
-            if choice == 1:
-                tournamentUsers[1] = matchingUsers[2]
-            else:
-                tournamentUsers[1] = matchingUsers[3]
-            round = 2
-            tournamentUsers[7] = matchingUsers[4]
-            tournamentUsers[8] = matchingUsers[5]
-        elif round == 2:
-            if choice == 1:
-                tournamentUsers[2] = matchingUsers[4]
-            else:
-                tournamentUsers[2] = matchingUsers[5]
-            round = 3
-            tournamentUsers[7] = matchingUsers[6]
-            tournamentUsers[8] = matchingUsers[7]
-        elif round == 3:
-            if choice == 1:
-                tournamentUsers[3] = matchingUsers[6]
-            else:
-                tournamentUsers[3] = matchingUsers[7]
-            round = 4
-            tournamentUsers[7] = tournamentUsers[0]
-            tournamentUsers[8] = tournamentUsers[1]
-        elif round == 4:
-            if choice == 1:
-                tournamentUsers[4] = tournamentUsers[0]
-            else:
-                tournamentUsers[4] = tournamentUsers[1]
-            round = 5
-            tournamentUsers[7] = tournamentUsers[2]
-            tournamentUsers[8] = tournamentUsers[3]
-        elif round == 5:
-            if choice == 1:
-                tournamentUsers[5] = tournamentUsers[2]
-            else:
-                tournamentUsers[5] = tournamentUsers[3]
-            round = 6
-            tournamentUsers[7] = tournamentUsers[4]
-            tournamentUsers[8] = tournamentUsers[5]
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                global round
+                global matchingUsers
+                global tournamentUsers
+                if round == -1:
+                    round = 0
+                elif round == 0:
+                    if choice == 1:
+                        tournamentUsers[0] = matchingUsers[0]
+                    else:
+                        tournamentUsers[0] = matchingUsers[1]
+                    round = 1
+                    tournamentUsers[7] = matchingUsers[2]
+                    tournamentUsers[8] = matchingUsers[3]
+                elif round == 1:
+                    if choice == 1:
+                        tournamentUsers[1] = matchingUsers[2]
+                    else:
+                        tournamentUsers[1] = matchingUsers[3]
+                    round = 2
+                    tournamentUsers[7] = matchingUsers[4]
+                    tournamentUsers[8] = matchingUsers[5]
+                elif round == 2:
+                    if choice == 1:
+                        tournamentUsers[2] = matchingUsers[4]
+                    else:
+                        tournamentUsers[2] = matchingUsers[5]
+                    round = 3
+                    tournamentUsers[7] = matchingUsers[6]
+                    tournamentUsers[8] = matchingUsers[7]
+                elif round == 3:
+                    if choice == 1:
+                        tournamentUsers[3] = matchingUsers[6]
+                    else:
+                        tournamentUsers[3] = matchingUsers[7]
+                    round = 4
+                    tournamentUsers[7] = tournamentUsers[0]
+                    tournamentUsers[8] = tournamentUsers[1]
+                elif round == 4:
+                    if choice == 1:
+                        tournamentUsers[4] = tournamentUsers[0]
+                    else:
+                        tournamentUsers[4] = tournamentUsers[1]
+                    round = 5
+                    tournamentUsers[7] = tournamentUsers[2]
+                    tournamentUsers[8] = tournamentUsers[3]
+                elif round == 5:
+                    if choice == 1:
+                        tournamentUsers[5] = tournamentUsers[2]
+                    else:
+                        tournamentUsers[5] = tournamentUsers[3]
+                    round = 6
+                    tournamentUsers[7] = tournamentUsers[4]
+                    tournamentUsers[8] = tournamentUsers[5]
 
-        elif round == 6:
-            if choice == 1:
-                tournamentUsers[6] = tournamentUsers[4]
-            else:
-                tournamentUsers[6] = tournamentUsers[5]
-            round = 7
+                elif round == 6:
+                    if choice == 1:
+                        tournamentUsers[6] = tournamentUsers[4]
+                    else:
+                        tournamentUsers[6] = tournamentUsers[5]
+                    round = 7
 
-        return HttpResponseRedirect("/match")
+
+                return HttpResponseRedirect("/match")
     
 from .match_data import hobby_categories, algorithm_categories, data_structure_categories
 
@@ -489,6 +562,11 @@ class MatchView(View):
     def get(self, request):
         if logInUser is None:
             return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 1:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+               
         global round
         global matchingUsers
         global tournamentUsers
