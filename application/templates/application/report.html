@@ -40,9 +40,27 @@
                 padding: 10px 20px;
                 margin: 20px;
             }
+            .option{
+                background-color: gray; 
+                border-radius: 10px;
+                color: white; 
+                orientation: right; 
+                border-color: gray; 
+                margin: 5px; 
+              }
+            #left {
+                float: left;
+                width: 5%;
+            }
+            #right {
+                float: right;
+                width: 5%;
+            }
         </style>
     </head>
     <body>
+        <button class="option" id="left" onclick="location.href='/reports'">Home</button>
+        <button class="option" id="right"onclick="location.href='/login'">Log out</button>
         <div id="header">
             <h1>Report#{{ report.id }}</h1>
         </div>

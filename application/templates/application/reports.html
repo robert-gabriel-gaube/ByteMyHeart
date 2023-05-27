@@ -37,9 +37,32 @@
             #OPN {
                 background-color: limegreen;
             }
+            .option{
+                background-color: gray; 
+                border-radius: 10px;
+                color: white; 
+                orientation: right; 
+                border-color: gray; 
+                margin: 5px; 
+            }
+            #left {
+                float: left;
+                width: 5%;
+                color: white;
+                background-color: white;
+                border-color: white;
+                shadow: none;
+                border: 3px solid white;
+            }
+            #right {
+                float: right;
+                width: 5%;
+            }
         </style>
     </head>
     <body>
+        <button class="option" id="right"onclick="location.href='/login'">Log out</button>
+        <button class="option" id="left" onclick="location.href='/reports'">Home</button>
         <div id="header">
             <h1>Reports</h1>
         </div>
