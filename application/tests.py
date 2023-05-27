@@ -370,3 +370,94 @@ class DateOfferModelTest(TestCase):
         date_offer.status = "ACC"
         date_offer.save()
         self.assertEqual(date_offer.status, "ACC")
+
+
+#create a test for view my profile
+class ViewMyProfileTest(TestCase):
+    #create a user and a form
+    def setUp(self):
+        #create a user
+        form = Form(
+            name='Andrei',
+            age=20,
+            programming_language='C',
+            university_specialization='ETTI',
+            course_fav1="IC",
+            course_fav2="TS",
+            course_fav3="CD",
+            hobby1='coding',
+            hobby2='editing',
+            hobby3='analyzing',
+            hobby4='sleeping',
+            hobby5='cooking',
+            gender='M',
+            interest='F',
+            favorite_algorithm='viterbi',
+            favorite_data_structure='Graphs',
+            short_description='I like programming',
+        )
+        form.save()
+        user = User(
+            username='Fermecatu',
+            password=make_password("123456"),
+            matchId=None,
+            formId=user
+        )
+        user.save()
+        def test_view_my_profile_page(self):
+            response = self.client.get('/view-my-profile')
+            self.assertEqual(response.status_code, 200)
+        def test_view_my_profile_page_post(self):
+            #login
+            response = self.client.post('/login', {
+                'username': 'Fermecatu',
+                'password': '123456',
+            })
+            self.assertEqual(response.status_code, 302)
+            
+            self.assertEqual(response.url, '/user-main-page')
+            
+            response = self.client.get('/view-my-profile')
+            self.assertEqual(response.status_code, 200)
+            
+            self.assertIsInstance(response, HttpResponse)
+            
+            self.assertTemplateUsed(response, 'view_my_profile.html')
+            
+            self.assertContains(response, 'Andrei')
+            
+            self.assertContains(response, '20')
+            
+            self.assertContains(response, 'C')
+            
+            self.assertContains(response, 'ETTI')
+            
+            self.assertContains(response, 'IC')
+            
+            self.assertContains(response, 'TS')
+            
+            self.assertContains(response, 'CD')
+            
+            self.assertContains(response, 'coding')
+            
+            self.assertContains(response, 'editing')
+            
+            self.assertContains(response, 'analyzing')
+            
+            self.assertContains(response, 'sleeping')
+            
+            self.assertContains(response, 'cooking')
+            
+            self.assertContains(response, 'M')
+            
+            self.assertContains(response, 'F')
+            
+            self.assertContains(response, 'viterbi')
+            
+            self.assertContains(response, 'Graphs')
+            
+            self.assertContains(response, 'I like programming')
+            
+            self.assertContains(response, 'Fermecatu')
+            
+            self.assertContains(response, '123456')
