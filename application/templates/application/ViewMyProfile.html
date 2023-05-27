@@ -7,7 +7,6 @@
     <style>
         body{
             font-family: Lexend;
-            margin: 0
         }
         .form-control{
             margin: 10px 0;
@@ -16,12 +15,29 @@
         input{
             color: #F15A59;
         }
-
+        .option{
+            background-color: gray; 
+            border-radius: 10px;
+            color: white; 
+            orientation: right; 
+            border-color: gray; 
+            margin: 5px; 
+        }
+        #left {
+            float: left;
+            width: 5%;
+        }
+        #right {
+            float: right;
+            width: 5%;
+        }
     </style>
 </head>
-<body style="text-align: center;">
+<body>
+    <button class="option" id="left" onclick="location.href='/user-main-page'">Home</button>
+    <button class="option" id="right"onclick="location.href='/login'">Log out</button>
     <h1 style="color: black;text-align: center; font-family: 'Lexend'">Profile</h1>
-    <div >
+    <div style="text-align: center;">
     <p><b>Name:</b> {{form.name}}</p>
     <p><b>Age:</b> {{form.age}}</p>
     <p><b>Favorite programming language:</b> {{form.programming_language}}</p>
@@ -39,7 +55,8 @@
     <p><b>Favorite algorithm:</b> {{form.favorite_algorithm}}</p>
     <p><b>Favorite data structure:</b> {{form.favorite_data_structure}}</p>
     <p><b>Short description:</b> {{form.short_description}}</p>
-    </div>
     <button style="background-color: #D21312;align-content: end;font-family: 'Lexend'; color: white; border-radius: 10px; border-color: #D21312;" type="button" onclick="location.href='/edit-my-profile/'">Edit</button>
+    </div>
+    
 </body>
 </html>
