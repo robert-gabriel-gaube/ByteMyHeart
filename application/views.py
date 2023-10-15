@@ -211,7 +211,7 @@ class ReportsActionView(View):
         if logInUser is None:
             return HttpResponseRedirect("/login")
         else:
-            if logInUser.role ==0:
+            if logInUser.role == 0:
                 report = Report.objects.get(pk=pk)
                 report.status = 'CSD'
                 report.save()
