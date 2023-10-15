@@ -3,14 +3,20 @@
         <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
         <style>
             * {
-                padding: 0;
                 margin: 0;
-                font-family: 'Lexend';
+                padding: 0;
+            }
+            body{
+                font-family: Lexend;
+                margin: 0
             }
             #header {
-                padding-top: 3vh;
-                margin: auto;
-                text-align: center;
+                text-align: center; 
+            }
+            #header .title {
+                font-weight: bold;
+                font-size: 4rem;
+                padding: 5vh 0;
             }
             #reports {
                 width: 50vw;
@@ -28,7 +34,7 @@
             }
             #reports a {
                 text-decoration: none;
-                font-size: 20px;
+                font-size: 2rem;
                 color: black;
             }
             #CSD {
@@ -58,13 +64,16 @@
                 float: right;
                 width: 5%;
             }
+            #left, #right {
+                font-size: 1.1rem;
+            }
         </style>
     </head>
     <body>
         <button class="option" id="right"onclick="location.href='/login'">Log out</button>
         <button class="option" id="left" onclick="location.href='/reports'">Home</button>
-        <div id="header">
-            <h1>Reports</h1>
+        <div id="header"> 
+            <p class="title">Reports</p>
         </div>
 
         <div id="reports">

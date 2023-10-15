@@ -5,15 +5,24 @@
     <title>ByteMyHeart</title>
     <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
         body{
             font-family: Lexend;
+            margin: 0
+        }
+        #header {
+            text-align: center; 
+        }
+        #header .title {
+            font-weight: bold;
+            font-size: 4rem;
+            padding: 5vh 0;
         }
         .form-control{
             margin: 10px 0;
-        }
-
-        input{
-            color: #F15A59;
         }
         .option{
             background-color: gray; 
@@ -23,6 +32,9 @@
             border-color: gray; 
             margin: 5px; 
         }
+        #left, #right {
+            font-size: 1.1rem;
+        }
         #left {
             float: left;
             width: 5%;
@@ -31,13 +43,34 @@
             float: right;
             width: 5%;
         }
+        .form p {
+            font-size: 2rem;
+        }
+        .form {
+            border-radius: 10px;
+            width: 60%;
+            margin: 0 auto 20px auto;
+            padding: 2%;
+            background-color: #F15A59
+        }
+        .form button {
+            background-color: #D21312;
+            color: white; 
+            border-radius: 10px; 
+            border-color: #D21312;
+            font-size: 1.5rem;
+            margin-top: 20px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
     <button class="option" id="left" onclick="location.href='/user-main-page'">Home</button>
     <button class="option" id="right"onclick="location.href='/login'">Log out</button>
-    <h1 style="color: black;text-align: center; font-family: 'Lexend'">Profile</h1>
-    <div style="text-align: center;">
+    <div id="header"> 
+        <p class="title">Your profile</p>
+    </div>
+    <div style="text-align: center;" class="form">
     <p><b>Name:</b> {{form.name}}</p>
     <p><b>Age:</b> {{form.age}}</p>
     <p><b>Favorite programming language:</b> {{form.programming_language}}</p>
@@ -55,7 +88,7 @@
     <p><b>Favorite algorithm:</b> {{form.favorite_algorithm}}</p>
     <p><b>Favorite data structure:</b> {{form.favorite_data_structure}}</p>
     <p><b>Short description:</b> {{form.short_description}}</p>
-    <button style="background-color: #D21312;align-content: end;font-family: 'Lexend'; color: white; border-radius: 10px; border-color: #D21312;" type="button" onclick="location.href='/edit-my-profile/'">Edit</button>
+    <button style="" type="button" onclick="location.href='/edit-my-profile/'">Edit</button>
     </div>
     
 </body>

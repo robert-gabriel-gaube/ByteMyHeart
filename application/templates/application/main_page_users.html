@@ -3,9 +3,17 @@
         <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
         <style>
             * {
-                padding: 0;
                 margin: 0;
-                font-family: 'Lexend';
+                padding: 0;
+                font-family: Lexend;
+            }
+            #header {
+                text-align: center; 
+            }
+            #header .title {
+                font-weight: bold;
+                font-size: 4rem;
+                padding: 5vh 0;
             }
             #header {
                 padding-top: 3vh;
@@ -15,7 +23,7 @@
             #content {
                 border-radius: 10px;
                 margin: auto;
-                width: 50vw;
+                width: 80vw;
                 text-align: center;
                 color: white;
                 overflow: auto;
@@ -24,24 +32,38 @@
             #content ul {
                 list-style-type: none;
             }
-            #content ul li {
+            #content a {
                 padding: 10px;
                 margin: 30px;
                 background-color: #D21312;
                 border-radius: 10px;
-            }
-            #content ul li a {
                 text-decoration: none;
                 color: white;
                 font-size: 1.5em;
             }
+            table {
+                margin: auto;
+                font-size: 2rem;
+                border-spacing: 20px;
+            }
+            table td {
+                padding: 20px;
+                margin: 20px;
+                background-color: #D21312;
+                border-radius: 20px;
+                text-align: center;
+                border-spacing: 10px;
+            }
             .option{
-            background-color: gray; 
-            border-radius: 10px;
-            color: white; 
-            orientation: right; 
-            border-color: gray; 
-            margin: 5px; 
+                background-color: gray; 
+                border-radius: 10px;
+                color: white; 
+                orientation: right; 
+                border-color: gray; 
+                margin: 5px; 
+            }
+            #left, #right {
+                font-size: 1.1rem;
             }
             #left {
                 float: left;
@@ -56,21 +78,28 @@
                 float: right;
                 width: 5%;
             }
+            .thing {
+                border-spacing: 20px;
+            }
         </style>
     </head>
     <body>
         <button class="option" id="right"onclick="location.href='/login'">Log out</button>
         <button class="option" id="left" onclick="location.href='/user-main-page'">Home</button>
-        <div id="header">
-            <h1>Main User Page</h1>
+        <div id="header"> 
+            <p class="title">Main user page</p>
         </div>
         <div id="content"> 
-            <ul>
-               <li><a href="/match">Match</a></li>
-               <li><a href="/matches">Set up dates</a></li>
-               <li><a href="/view-my-profile/">View and edit profile</a></li>
-               <li><a href="/create-report">Create Report</a></li>
-            </ul>
+        <table cellspacing=2>
+            <tr>
+                <td class="thing"><a href="/match">Match</a></td>
+                <td class="thing"><a href="/matches">Set up dates</a></td>
+            </tr>
+            <tr>
+                <td class="thing"><a href="/view-my-profile/">View and edit profile</a></td>
+                <td class="thing"><a href="/create-report">Report user</a></td>
+            </tr>
+        </table>
         </div>
     </body>
 </html>
