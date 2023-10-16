@@ -8,9 +8,16 @@
                 font-family: 'Lexend';
             }
             #header {
-                padding-top: 3vh;
+                padding: 10vh 0;
                 margin: auto;
                 text-align: center;
+            }
+            #header .subtitle {
+                font-size: 2rem;
+            }
+            #header .title {
+                font-size: 4.5rem;
+                font-style: bold;
             }
             #content {
                 border-radius: 10px;
@@ -21,31 +28,56 @@
                 overflow: auto;
                 padding: 20px 0 30px 0;
             }
-            #content ul {
-                list-style-type: none;
-            }
-            #content ul li {
-                padding: 10px;
-                margin: 30px;
-                background-color: #D21312;
-                border-radius: 10px;
-            }
-            #content ul li a {
+            #content a {
                 text-decoration: none;
                 color: white;
                 font-size: 1.5em;
+                background-color: #FF6969;
+                border-radius: 10px;
+                padding: 8px;
+                transition: all 0.1s;
+            }
+            .main {
+                display: flex;
+                justify-content: center;
+                padding: 30px;
+            }
+            .box {
+                background-color: #D21312;
+                padding: 20px 40px;
+                margin: 20px;
+                border-radius: 10px;
+                text-align: center;
+                transition: all 0.1s;
+            }
+            .box p {
+                padding: 10% 0;
+            }
+            .box:hover {
+                padding: 20px 50px;
+            }
+            #content a:hover {
+                padding: 10px;
             }
         </style>
     </head>
     <body>
         <div id="header">
-            <h1>ByteMyHeart</h1>
+            <p class="subtitle">Welcome to your dating experience</p>
+            <p class="title"><b>ByteMyHeart</b></p>
         </div>
-        <div id="content"> 
-            <ul>
-               <li><a href="/login">Log In</a></li>
-               <li><a href="/register">Register</a></li>
-            </ul>
-        </div>
+        <main class="main" id="content">
+            <section class="box">
+                <h2>Join Now!</h2>
+                <p>Sign up and find your coding soulmate today.</p>
+                <a href="/register">Register</a>
+            </section>
+        
+            <section class="box">
+                <h2>Already have an account?</h2>
+                <p>Compile your love code and execute a perfect match!</p>
+                <a href="/login">Log In</a>
+            </section>
+        </main>
     </body>
 </html>

@@ -5,12 +5,25 @@
     <title>ByteMyHeart</title>
     <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
         body{
             font-family: Lexend;
             margin: 0
         }
+        #header {
+            text-align: center; 
+        }
+        #header .title {
+            font-weight: bold;
+            font-size: 4rem;
+            padding: 5vh 0;
+        }
         .form-control{
             margin: 10px 0;
+            padding: 10px;
         }
         form a, form button {
             background-color: #D21312;
@@ -20,6 +33,7 @@
             border-radius: 5px;
             padding: 10px 20px;
             margin: 20px;
+            font-size: 2rem;
         }
         form button {
             border: none;
@@ -27,11 +41,19 @@
         input{
             color: #F15A59;
         }
-
+        form label {
+            font-size: 2rem;
+            padding: 10px;
+        }
+        form input {
+            font-size: 2rem;
+        }
     </style>
 </head>
 <body>
-    <h1 style="color: black;text-align: center; font-family: 'Lexend'">Register a new account</h1>
+    <div id="header"> 
+        <p class="title">Initialize your dating profile!</p>
+    </div>
     <form action="\register" method="POST" style="text-align: center">
         {% csrf_token %}
         {% for field in form %} 
@@ -42,7 +64,7 @@
         </div>
         {% endfor %}
         <a href="/">Cancel</a>  
-        <button style="background-color: #D21312;align-content: end;font-family: 'Lexend'" type="submit">Register</button>
+        <button type="submit">Register</button>
     </form>
 </body>
 </html>

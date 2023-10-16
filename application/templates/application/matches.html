@@ -3,14 +3,20 @@
         <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
         <style>
             * {
-                padding: 0;
                 margin: 0;
-                font-family: 'Lexend';
+                padding: 0;
+            }
+            body{
+                font-family: Lexend;
+                margin: 0
             }
             #header {
-                padding-top: 3vh;
-                margin: auto;
-                text-align: center;
+                text-align: center; 
+            }
+            #header .title {
+                font-weight: bold;
+                font-size: 4rem;
+                padding: 5vh 0;
             }
             #content {
                 width: 50vw;
@@ -29,7 +35,7 @@
             }
             #content a {
                 text-decoration: none;
-                font-size: 20px;
+                font-size: 1.5rem;
                 color: black;
                 padding: 0px 10%;
             }
@@ -40,6 +46,9 @@
                 orientation: right; 
                 border-color: gray; 
                 margin: 5px; 
+            }
+            #left, #right {
+                font-size: 1.1rem;
             }
             #left {
                 float: left;
@@ -52,11 +61,10 @@
         </style>
     </head>
     <body>
-        
-<button class="option" id="left" onclick="location.href='/user-main-page'">Home</button>
-<button class="option" id="right"onclick="location.href='/login'">Log out</button>
-        <div id="header">
-            <h1>Matches</h1>
+        <button class="option" id="left" onclick="location.href='/user-main-page'">Home</button>
+        <button class="option" id="right"onclick="location.href='/login'">Log out</button>
+        <div id="header"> 
+            <p class="title">Your matches</p>
         </div>
 
         <div id="content">
@@ -65,7 +73,6 @@
                     <li><a href="matches/match/{{ match.username }}">{{ match.username }}</a><a href="/view-profile/{{ match.username }}">View Profile</a></li>
                 {% endfor %}
             </ul>
-        </div>  
-
+        </div> 
     </body>
 </html>

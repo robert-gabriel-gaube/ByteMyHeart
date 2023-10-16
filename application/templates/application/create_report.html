@@ -3,46 +3,30 @@
         <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
         <style>
             * {
-                padding: 0;
                 margin: 0;
-                font-family: 'Lexend';
+                padding: 0;
+                font-family: Lexend;
             }
             #header {
-                padding-top: 3vh;
-                margin: auto;
-                text-align: center;
-                padding-bottom: 5vh;
+                text-align: center; 
+            }
+            #header .title {
+                font-weight: bold;
+                font-size: 4rem;
+                padding: 5vh 0;
             }
             #content {
                 border-radius: 10px;
                 margin: auto;
-                width: 50vw;
+                width: 60vw;
                 background-color: #F15A59;
                 text-align: center;
                 color: white;
                 overflow: auto;
                 padding: 20px 0 30px 0;
             }
-            #content a, #content button {
-                background-color: #D21312;
-                text-decoration: none;
-                font-size: 20px;
-                color: white;
-                border-radius: 5px;
-                padding: 10px 20px;
-                margin: 20px;
-            }
             #content button {
                 border: none;
-            }
-            form {
-                text-align: center;
-            }
-            .form-control{
-                margin: 10px 0;
-            }
-            input{
-                color: #F15A59;
             }
             .option{
                 background-color: gray; 
@@ -52,6 +36,9 @@
                 border-color: gray; 
                 margin: 5px; 
             }
+            #left, #right {
+                font-size: 1.1rem;
+            }
             #left {
                 float: left;
                 width: 5%;
@@ -60,13 +47,36 @@
                 float: right;
                 width: 5%;
             }
+            .form-control{
+                margin: 10px 0;
+            }
+            form a, form button {
+                background-color: #D21312;
+                text-decoration: none;
+                font-size: 20px;
+                color: white;
+                border-radius: 10px;
+                padding: 10px 20px;
+                margin: 60px 20px 20px 20px;
+                font-size: 2rem;
+            }
+            input{
+                color: #F15A59;
+            }
+            form label {
+                font-size: 2rem;
+                padding: 10px;
+            }
+            form input, select{
+                font-size: 2rem;
+            }
         </style>
     </head>
     <body>
         <button class="option" id="left" onclick="location.href='/user-main-page'">Home</button>
         <button class="option" id="right"onclick="location.href='/login'">Log out</button>
-        <div id="header">
-            <h1>Create report</h1>
+        <div id="header"> 
+            <p class="title">Create report</p>
         </div>
         <div id="content">
             <form action="/create-report/" method="POST">

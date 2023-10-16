@@ -48,7 +48,6 @@ class UserRegisterFormView(View):
             global user
             user=form.save()
             user.password=make_password(form.cleaned_data['password'])
-            user.save()
             return HttpResponseRedirect("/interestform")
         return render(request, "application/Form.html", {
             "form": form
@@ -134,7 +133,7 @@ class EditMyProfileView(View):
                 logInUser.formId.name = name
             
             age = form.cleaned_data['age']
-            if age != '':
+            if age is not None:
                 logInUser.formId.age = age
             
             programming_language = form.cleaned_data['programming_language']
@@ -549,6 +548,7 @@ class MatchView(View):
             matchingUsers = matchingUsers.exclude(username=logInUser.username)
             matchingUsers = matchingUsers.exclude(role=0)
             matchingUsers = matchingUsers.exclude(isBanned=True)
+            matchingUsers = matchingUsers.exclude(formId__isnull=True)
             done = 0
 
             for user in logInUser.matchId.all():    

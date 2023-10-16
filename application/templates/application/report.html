@@ -3,15 +3,20 @@
         <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
         <style>
             * {
-                padding: 0;
                 margin: 0;
-                font-family: 'Lexend';
+                padding: 0;
+            }
+            body{
+                font-family: Lexend;
+                margin: 0
             }
             #header {
-                padding-top: 3vh;
-                margin: auto;
-                text-align: center;
-                padding-bottom: 5vh;
+                text-align: center; 
+            }
+            #header .title {
+                font-weight: bold;
+                font-size: 4rem;
+                padding: 5vh 0;
             }
             #content {
                 border-radius: 10px;
@@ -24,21 +29,21 @@
                 padding: 20px 0 30px 0;
             }
             #content #username {
-                font-size: 30px;
+                font-size: 3rem;
                 padding: 10px 0 30px 0;
             }
             #content #description {
-                font-size: 20px;
+                font-size: 2rem;
                 padding: 20px 0 40px 0;
             }
             #content a {
                 background-color: #D21312;
                 text-decoration: none;
-                font-size: 20px;
+                font-size: 2rem;
                 color: white;
                 border-radius: 5px;
                 padding: 10px 20px;
-                margin: 20px;
+                margin: 30px;
             }
             .option{
                 background-color: gray; 
@@ -47,7 +52,10 @@
                 orientation: right; 
                 border-color: gray; 
                 margin: 5px; 
-              }
+            }
+            #left, #right {
+                font-size: 1.1rem;
+            }
             #left {
                 float: left;
                 width: 5%;
@@ -61,8 +69,8 @@
     <body>
         <button class="option" id="left" onclick="location.href='/reports'">Home</button>
         <button class="option" id="right"onclick="location.href='/login'">Log out</button>
-        <div id="header">
-            <h1>Report#{{ report.id }}</h1>
+        <div id="header"> 
+            <p class="title">Report#{{ report.id }}</p>
         </div>
         <div id="content">
             <p id="username">{{ user.username }}</p>
