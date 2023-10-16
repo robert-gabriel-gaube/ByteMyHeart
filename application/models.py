@@ -30,6 +30,9 @@ class Form(models.Model):
     favorite_data_structure = models.CharField(max_length=30, null=False)
     short_description = models.CharField(max_length=50, null=False)
 
+    def __str__(self):
+        return str(self.id)
+
 
 class User(models.Model):
     username = models.CharField(max_length=25, null=False, unique=True, validators=[MinLengthValidator(8)])
@@ -55,6 +58,9 @@ class Report(models.Model):
     ]
 
     status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=OPEN)
+
+    def __str__(self):
+        return str(self.id)
 
 class DateOffer(models.Model):
     senderId = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name='senderId')
