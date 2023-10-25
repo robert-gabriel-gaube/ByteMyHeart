@@ -1,0 +1,40 @@
+@keyframes scrollBg {
+    0%, 130% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: -130% 0;
+    }
+}
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Lexend';
+}
+body {
+    background-image: url("../hearts.png");
+    animation: scrollBg 20s linear infinite;
+}
+#header {
+    padding: 10vh 0;
+    margin: auto;
+    text-align: center;
+}
+#header .subtitle {
+    font-size: 2rem;
+}
+#header .title {
+    font-size: 4.5rem;
+    font-style: bold;
+}
+#left, #right {
+    font-size: 1.1rem;
+}
+#left {
+    float: left;
+    width: 5%;
+}
+#right {
+    float: right;
+    width: 5%;
+}
