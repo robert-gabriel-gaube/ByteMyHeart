@@ -1,23 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>ByteMyHeart</title>
     <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+    <link href='{% static "application/css/general.css" %}' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon" href="{% static "application/icon.ico" %}">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: Lexend;
-        }
-        #header {
-            text-align: center; 
-        }
-        #header .title {
-            font-weight: bold;
-            font-size: 4rem;
-            padding: 5vh 0;
-        }
         .form-control{
             margin: 10px 0;
             padding: 10px;

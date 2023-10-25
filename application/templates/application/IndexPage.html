@@ -1,24 +1,10 @@
 <html>
     <head>
+        {% load static %}
         <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+        <link href='{% static "application/css/general.css" %}' rel='stylesheet'>
+        <link rel="icon" type="image/x-icon" href="{% static "application/icon.ico" %}">
         <style>
-            * {
-                padding: 0;
-                margin: 0;
-                font-family: 'Lexend';
-            }
-            #header {
-                padding: 10vh 0;
-                margin: auto;
-                text-align: center;
-            }
-            #header .subtitle {
-                font-size: 2rem;
-            }
-            #header .title {
-                font-size: 4.5rem;
-                font-style: bold;
-            }
             #content {
                 border-radius: 10px;
                 margin: auto;
