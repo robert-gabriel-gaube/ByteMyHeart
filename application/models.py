@@ -78,3 +78,11 @@ class DateOffer(models.Model):
     ]
     status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class RateDate(models.Model):
+    senderId = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='senderIdRate')
+    receiverId = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='receiverIdRate')   
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1,
+                                 null=False)  # 1 -> user
+    
+        

@@ -42,6 +42,17 @@
             background-color: #F15A59;
             color: white;
         }
+        #rating {
+            display: {{ display_rate }};
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 40%;
+            padding: 20px 0px;
+            border-radius: 10px;
+            margin: 20px 30%;
+            background-color: #F15A59;
+        }
         #title {
             font-weight: bold;
             font-size: 1.2em;
@@ -131,6 +142,20 @@
                 </div>  
             </div>
         {% endif %}
-        
+    </div>
+    <div id="rating">
+        <div id="title"> 
+            Rate your date!
+        </div>
+      <form action="/process-rating/{{ date.username }}" method="POST">
+          {% csrf_token %}
+          <select name="rating">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+          </select>
+          <button type="submit" >Submit</button>
     </div>
 </body>
