@@ -23,5 +23,8 @@ urlpatterns = [
     path('match', views.MatchView.as_view()),
     path('match-logic/<int:choice>', views.MatchLogicView.as_view()),
     path('blocked', views.BlockedView.as_view()),
+    path('admin-main-page', views.AdminMainPageView.as_view()),
+    path('users', views.UsersView.as_view()),
+    path('delete-users', views.DeleteUsersView.as_view())
     path('process-rating/<username>', views.ProcessRatingView.as_view())
 ]

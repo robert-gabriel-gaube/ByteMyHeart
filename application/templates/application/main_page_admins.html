@@ -1,0 +1,79 @@
+<html>
+    <head>
+        {% load static %}
+        <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+        <link href='{% static "application/css/general.css" %}' rel='stylesheet'>
+        <link rel="icon" type="image/x-icon" href="{% static "application/icon.ico" %}">
+        <style>
+            #content {
+                border-radius: 10px;
+                margin: auto;
+                width: 80vw;
+                text-align: center;
+                color: white;
+                overflow: auto;
+                padding: 20px 0 30px 0;
+            }
+            #content ul {
+                list-style-type: none;
+            }
+            #content a {
+                padding: 10px;
+                margin: 30px;
+                background-color: #D21312;
+                border-radius: 10px;
+                text-decoration: none;
+                color: white;
+                font-size: 1.5em;
+            }
+            table {
+                margin: auto;
+                font-size: 2rem;
+                border-spacing: 20px;
+            }
+            table td {
+                padding: 20px;
+                margin: 20px;
+                background-color: #D21312;
+                border-radius: 20px;
+                text-align: center;
+                border-spacing: 10px;
+            }
+            .option{
+                background-color: gray; 
+                border-radius: 10px;
+                color: white; 
+                orientation: right; 
+                border-color: gray; 
+                margin: 5px; 
+            }
+            #left {
+                float: left;
+                width: 5%;
+                color: white;
+                background-color: white;
+                border-color: white;
+                shadow: none;
+                border: 3px solid white;
+            }
+            .thing {
+                border-spacing: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <button class="option" id="right"onclick="location.href='/login'">Log out</button>
+        <button class="option" id="left" onclick="location.href='/admin-main-page'">Home</button>
+        <div id="header"> 
+            <p class="title">Main admin page</p>
+        </div>
+        <div id="content"> 
+        <table cellspacing=2>
+            <tr>
+                <td class="thing"><a href="/reports">Reports</a></td>
+                <td class="thing"><a href="/users">Users</a></td>
+            </tr>
+        </table>
+        </div>
+    </body>
+</html>

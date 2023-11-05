@@ -73,7 +73,7 @@ class LoginView(View):
                     if(user.role == 1):
                         return HttpResponseRedirect("/user-main-page")
                     else:
-                        return HttpResponseRedirect("/reports")
+                        return HttpResponseRedirect("/admin-main-page")
         return render(request, "application/LoginPage.html", {
             "form": form
         })
@@ -267,9 +267,7 @@ class UserMainPageView(View):
                     return HttpResponseRedirect("/blocked")
                 global round
                 round = 0
-                return render(request, "application/main_page_users.html",{
-                    'username': logInUser.username,
-                })
+                return render(request, "application/main_page_users.html")
             else:
                 return HttpResponseRedirect("/")
         
@@ -613,6 +611,39 @@ class MatchView(View):
             'done': done
         })
     
+class AdminMainPageView(View):
+    def get(self, request):
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 0:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                return render(request, "application/main_page_admins.html")
+            else:
+                return HttpResponseRedirect("/")
+            
+class UsersView(View):
+    def get(self, request):
+        if logInUser is None:
+            return HttpResponseRedirect("/login")
+        else:
+            if logInUser.role == 0:
+                if logInUser.isBanned:
+                    return HttpResponseRedirect("/blocked")
+                users = User.objects.all().filter(role=1)
+                if users.count() == 0:
+                    return render(request, "application/users-empty.html")
+                return render(request, "application/users.html", {'users' : users})
+            else:
+                return HttpResponseRedirect("/")
+
+class DeleteUsersView(View):
+    def post(self, request):
+        user_ids = request.POST.getlist('user_ids')
+        User.objects.filter(id__in=user_ids).delete()
+        return HttpResponseRedirect("/admin-main-page")
+
 class ProcessRatingView(View):
     def post(self, request, username):
         form = RateDateForm(request.POST)
