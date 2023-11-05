@@ -2,8 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password, check_password
-from application.models import Report, User, DateOffer, Form
-from application.forms import LoginForm, ReportForm, UserRegisterForm, BigRegisterForm, DateOfferForm, EditMyProfileForm
+from application.models import Report, User, DateOffer, Form, RateDate 
+from application.forms import LoginForm, RateDateForm, ReportForm, UserRegisterForm, BigRegisterForm, DateOfferForm, EditMyProfileForm
 
 user = None
 logInUser = None
@@ -303,12 +303,26 @@ class ViewMatchView(View):
                 else:
                     display_form = True
 
+                try:
+                    form_rate = RateDate.objects.get(senderId=logInUser, receiverId=match)
+                except:
+                    form_rate = None
+
+                if form_rate:
+                    display_rate='none'
+                else:
+                    display_rate='flex'
+                
+                if offers.last().status != 'ACC':
+                    display_rate='none'
+
                 return render(request, "application/date_offer.html", {
                     'offers': offers,
                     'date': match,
                     'loggedUser': logInUser,
                     'display_form': display_form,
-                    'form': form
+                    'form': form,
+                    'display_rate':display_rate
                 })
             
     def post(self, request, username):
@@ -332,6 +346,7 @@ class SetDateOfferView(View):
                 date_offer.status = status
                 date_offer.save()
                 return HttpResponseRedirect("/matches/match/" + date_offer.senderId.username)
+            
         
 class MatchesView(View):
     def get(self, request):
@@ -345,7 +360,8 @@ class MatchesView(View):
                     return HttpResponseRedirect("/login")
                 
                 return render(request, "application/matches.html", {
-                    'matches': logInUser.matchId.all()
+                    'matches': logInUser.matchId.all(),
+                    'ratings': RateDate.objects.filter(senderId=logInUser).order_by('-rating')
                 })
             
 class ViewProfileView(View):
@@ -596,3 +612,14 @@ class MatchView(View):
             'choice2': tournamentUsers[8],
             'done': done
         })
+    
+class ProcessRatingView(View):
+    def post(self, request, username):
+        form = RateDateForm(request.POST)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.senderId = logInUser
+            rate.receiverId = User.objects.get(username=username)
+            rate.save()
+            return HttpResponseRedirect("/matches/match/" + rate.receiverId.username)
+        return HttpResponseRedirect("/matches/match/" + rate.receiverId.username)
