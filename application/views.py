@@ -310,9 +310,13 @@ class ViewMatchView(View):
                     display_rate='none'
                 else:
                     display_rate='flex'
-                
-                if offers.last().status != 'ACC':
+                try:
+                    if offers.last().status != 'ACC':
+                        display_rate='none'
+                except:
                     display_rate='none'
+                
+                print("OFFERS: ", offers)
 
                 return render(request, "application/date_offer.html", {
                     'offers': offers,
